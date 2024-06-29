@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.models.db_entities;
 
+import com.thedisciplineprogram.models.enums.Level;
 import com.thedisciplineprogram.models.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,6 +21,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "level")
+    private Level level;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -31,8 +35,5 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "training_program_id")
-    private TrainingProgram trainingProgram;
 }
 

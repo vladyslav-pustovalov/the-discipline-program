@@ -2,6 +2,11 @@ package com.thedisciplineprogram.repositories.user;
 
 import com.thedisciplineprogram.models.db_entities.User;
 import com.thedisciplineprogram.utils.HibernateSessionFactoryUtil;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -24,10 +29,33 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        User result = null;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            try {
+                CriteriaBuilder builder = session.getCriteriaBuilder();
+                CriteriaQuery<User> criteria = builder.createQuery(User.class);
+                Root<User> from = criteria.from(User.class);
+                criteria.select(from);
+                criteria.where(builder.equal(from.get("email"), email));
+                TypedQuery<User> typed = session.createQuery(criteria);
+                result = typed.getSingleResult();
+                log.info("User is got from DB by email '{}'", email);
+            }  catch (NoResultException e) {
+                log.error("User with email '{}' not found in DB", email);
+                log.error(e.getMessage());
+            }
+        } catch (HibernateException e) {
+            log.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
     public Boolean createUser(User user) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            User existingUser = session.get(User.class, user.getId());
+            User existingUser = findUserByEmail(user.getEmail());
             if (existingUser == null) {
                 session.getTransaction().begin();
                 session.persist(user);
