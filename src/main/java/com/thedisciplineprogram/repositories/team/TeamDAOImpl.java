@@ -3,7 +3,6 @@ package com.thedisciplineprogram.repositories.team;
 import com.thedisciplineprogram.models.db_entities.Team;
 import com.thedisciplineprogram.utils.HibernateSessionFactoryUtil;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -81,6 +80,8 @@ public class TeamDAOImpl implements TeamDAO {
                 session.getTransaction().commit();
                 log.info("Team updated in DB");
                 isUpdated = true;
+            } else {
+                log.info("Team with id '{}' does not exist in DB", team.getId());
             }
         } catch (HibernateException e) {
             log.error(e.getMessage());
