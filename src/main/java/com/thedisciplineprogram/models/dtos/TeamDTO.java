@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.Data;
         "name"
 })
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamDTO {
     @JsonProperty("id")
     private Long id;

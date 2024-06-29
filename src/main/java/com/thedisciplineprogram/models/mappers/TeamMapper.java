@@ -13,7 +13,6 @@ public class TeamMapper {
 
     public Team mapTeamDTOToTeam(TeamDTO teamDTO) {
         Team result = new Team();
-        result.setId(teamDTO.getId());
         result.setName(teamDTO.getName());
         return result;
     }

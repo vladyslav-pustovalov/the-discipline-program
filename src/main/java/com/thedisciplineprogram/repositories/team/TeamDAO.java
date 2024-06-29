@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 public interface TeamDAO {
     Team findTeamById(Long id);
+    Team findTeamByName(String name);
     Boolean createTeam(Team team);
     Boolean updateTeam(Team team);
     Boolean deleteTeamById(Long id);

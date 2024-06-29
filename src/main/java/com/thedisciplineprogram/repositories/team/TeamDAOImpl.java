@@ -2,6 +2,12 @@ package com.thedisciplineprogram.repositories.team;
 
 import com.thedisciplineprogram.models.db_entities.Team;
 import com.thedisciplineprogram.utils.HibernateSessionFactoryUtil;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -24,10 +30,33 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
+    public Team findTeamByName(String name) {
+        Team result = null;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            try {
+                CriteriaBuilder builder = session.getCriteriaBuilder();
+                CriteriaQuery<Team> criteria = builder.createQuery(Team.class);
+                Root<Team> from = criteria.from(Team.class);
+                criteria.select(from);
+                criteria.where(builder.equal(from.get("name"), name));
+                TypedQuery<Team> typed = session.createQuery(criteria);
+                result = typed.getSingleResult();
+                log.info("Team is got from DB by name '{}'", name);
+            } catch (NoResultException e) {
+                log.error("Team with name '{}' is not found in DB", name);
+                log.error(e.getMessage());
+            }
+        } catch (HibernateException e) {
+            log.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
     public Boolean createTeam(Team team) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            Team existingTeam = session.get(Team.class, team.getId());
+            Team existingTeam = findTeamByName(team.getName());
             if (existingTeam == null) {
                 session.getTransaction().begin();
                 session.persist(team);
