@@ -18,6 +18,10 @@ public class TeamService {
         return teamDAO.findTeamById(id);
     }
 
+    public Team getTeamByName(String name) {
+        return teamDAO.findTeamByName(name);
+    }
+
     public Boolean addTeam(Team team) {
         return teamDAO.createTeam(team);
     }

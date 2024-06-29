@@ -22,8 +22,8 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
-    @GetMapping("/{id}")
-    public TeamDTO getTeamById(@PathVariable long id) {
+    @GetMapping
+    public TeamDTO getTeamById(@RequestParam(value = "id") long id) {
         return teamMapper.mapTeamEntityToTeamDTO(teamService.getTeamById(id));
     }
 
