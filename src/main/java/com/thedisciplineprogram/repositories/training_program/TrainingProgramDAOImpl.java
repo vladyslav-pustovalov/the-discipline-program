@@ -29,6 +29,7 @@ public class TrainingProgramDAOImpl implements TrainingProgramDAO {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
 //            TrainingProgram existingProgram = session.get(TrainingProgram.class, program.getId());
 //            if (existingProgram == null) {
+            //TODO: add checking program for dates
                 session.getTransaction().begin();
                 session.persist(program);
                 session.getTransaction().commit();

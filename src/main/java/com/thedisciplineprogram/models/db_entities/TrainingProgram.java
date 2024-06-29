@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "training_programs")
@@ -24,21 +23,4 @@ public class TrainingProgram {
     @Lob
     @Column(name = "program")
     private String program;
-    @OneToMany(
-            mappedBy = "trainingProgram",
-            cascade =  CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<User> users;
-
-
-    public void addUser(User user) {
-        users.add(user);
-        user.setTrainingProgram(this);
-    }
-
-    public void removeUser(User user) {
-        users.remove(user);
-        user.setTrainingProgram(null);
-    }
 }
