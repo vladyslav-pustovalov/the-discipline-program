@@ -27,14 +27,14 @@ public class TrainingProgramDAOImpl implements TrainingProgramDAO {
     public Boolean createProgram(TrainingProgram program) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            TrainingProgram existingProgram = session.get(TrainingProgram.class, program.getId());
-            if (existingProgram == null) {
+//            TrainingProgram existingProgram = session.get(TrainingProgram.class, program.getId());
+//            if (existingProgram == null) {
                 session.getTransaction().begin();
                 session.persist(program);
                 session.getTransaction().commit();
                 log.info("Training Program created in DB");
                 isCreated = true;
-            }
+//            }
         } catch (HibernateException e) {
             log.error(e.getMessage());
         }

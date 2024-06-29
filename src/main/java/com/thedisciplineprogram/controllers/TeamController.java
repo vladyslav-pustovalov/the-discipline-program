@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -54,7 +56,7 @@ public class TeamController {
         }
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<Boolean> deleteTeamById(@RequestParam(value = "id") long id) {
         Boolean result = teamService.deleteTeamById(id);
         if (result) {
