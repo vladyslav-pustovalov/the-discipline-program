@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.controllers;
 
+import com.thedisciplineprogram.models.db_entities.Team;
 import com.thedisciplineprogram.models.dtos.TeamDTO;
 import com.thedisciplineprogram.models.mappers.TeamMapper;
 import com.thedisciplineprogram.services.TeamService;
@@ -23,8 +24,13 @@ public class TeamController {
     private TeamService teamService;
 
     @GetMapping
-    public TeamDTO getTeamById(@RequestParam(value = "id") long id) {
-        return teamMapper.mapTeamEntityToTeamDTO(teamService.getTeamById(id));
+    public ResponseEntity<TeamDTO> getTeamById(@RequestParam(value = "id") long id) {
+        Team resultEntity = teamService.getTeamById(id);
+        if (resultEntity != null) {
+            return ResponseEntity.ok(teamMapper.mapTeamEntityToTeamDTO(resultEntity));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(
