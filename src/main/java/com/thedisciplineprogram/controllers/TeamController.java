@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -35,7 +34,7 @@ public class TeamController {
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> createTeam(@RequestBody TeamDTO teamDTO) {
-        Boolean result = teamService.addTeam(teamMapper.mapTeamDTOToTeam(teamDTO));
+        Boolean result = teamService.createTeam(teamMapper.mapTeamDTOToTeam(teamDTO));
         if (result) {
             return ResponseEntity.ok(true);
         } else {

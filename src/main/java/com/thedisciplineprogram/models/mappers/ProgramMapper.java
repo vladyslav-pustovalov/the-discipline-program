@@ -1,12 +1,12 @@
 package com.thedisciplineprogram.models.mappers;
 
-import com.thedisciplineprogram.models.db_entities.TrainingProgram;
-import com.thedisciplineprogram.models.dtos.TrainingProgramDTO;
+import com.thedisciplineprogram.models.db_entities.Program;
+import com.thedisciplineprogram.models.dtos.ProgramDTO;
 
-public class TrainingProgramMapper {
+public class ProgramMapper {
 
-    public TrainingProgram mapProgramDTOToProgram(TrainingProgramDTO programDTO) {
-        TrainingProgram program = new TrainingProgram();
+    public Program mapProgramDTOToProgram(ProgramDTO programDTO) {
+        Program program = new Program();
         program.setId(programDTO.getId());
         program.setStartDate(programDTO.getStartDate());
         program.setEndDate(programDTO.getEndDate());
@@ -16,8 +16,8 @@ public class TrainingProgramMapper {
     }
 
 
-    public TrainingProgramDTO mapProgramToProgramDTO(TrainingProgram program) {
-        TrainingProgramDTO programDTO = new TrainingProgramDTO();
+    public ProgramDTO mapProgramToProgramDTO(Program program) {
+        ProgramDTO programDTO = new ProgramDTO();
         programDTO.setId(program.getId());
         programDTO.setStartDate(program.getStartDate());
         programDTO.setEndDate(program.getEndDate());

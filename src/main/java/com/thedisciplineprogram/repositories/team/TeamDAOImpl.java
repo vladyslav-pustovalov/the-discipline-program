@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class TeamDAOImpl implements TeamDAO {
 
     @Override
-    public Team findTeamById(Long id) {
+    public Team getTeamById(Long id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Team result = session.get(Team.class, id);
             log.info("Team is got from DB");
@@ -29,7 +29,7 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    public Team findTeamByName(String name) {
+    public Team getTeamByName(String name) {
         Team result = null;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             try {
@@ -55,7 +55,7 @@ public class TeamDAOImpl implements TeamDAO {
     public Boolean createTeam(Team team) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            Team existingTeam = findTeamByName(team.getName());
+            Team existingTeam = getTeamByName(team.getName());
             if (existingTeam == null) {
                 session.getTransaction().begin();
                 session.persist(team);

@@ -15,14 +15,14 @@ public class TeamService {
     }
 
     public Team getTeamById(Long id) {
-        return teamDAO.findTeamById(id);
+        return teamDAO.getTeamById(id);
     }
 
     public Team getTeamByName(String name) {
-        return teamDAO.findTeamByName(name);
+        return teamDAO.getTeamByName(name);
     }
 
-    public Boolean addTeam(Team team) {
+    public Boolean createTeam(Team team) {
         return teamDAO.createTeam(team);
     }
 

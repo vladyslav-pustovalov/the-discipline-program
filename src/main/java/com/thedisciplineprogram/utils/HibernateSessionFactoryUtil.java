@@ -1,7 +1,7 @@
 package com.thedisciplineprogram.utils;
 
 import com.thedisciplineprogram.models.db_entities.Team;
-import com.thedisciplineprogram.models.db_entities.TrainingProgram;
+import com.thedisciplineprogram.models.db_entities.Program;
 import com.thedisciplineprogram.models.db_entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -30,7 +30,7 @@ public class HibernateSessionFactoryUtil {
             configuration
                     .addAnnotatedClass(User.class)
                     .addAnnotatedClass(Team.class)
-                    .addAnnotatedClass(TrainingProgram.class);
+                    .addAnnotatedClass(Program.class);
             StandardServiceRegistry builder = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties())
                     .build();

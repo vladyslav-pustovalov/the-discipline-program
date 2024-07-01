@@ -5,7 +5,7 @@ import com.thedisciplineprogram.models.dtos.UserDTO;
 
 public class UserMapper {
     private final TeamMapper teamMapper = new TeamMapper();
-    private final TrainingProgramMapper programMapper = new TrainingProgramMapper();
+    private final ProgramMapper programMapper = new ProgramMapper();
 
     public UserDTO mapUserToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();

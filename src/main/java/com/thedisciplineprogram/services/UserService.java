@@ -15,7 +15,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userDAO.findUserById(id);
+        return userDAO.getUserById(id);
     }
 
     public Boolean createUser(User user) {

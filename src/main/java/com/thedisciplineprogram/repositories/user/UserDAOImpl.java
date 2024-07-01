@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class UserDAOImpl implements UserDAO {
 
     @Override
-    public User findUserById(Long id) {
+    public User getUserById(Long id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             User result = session.get(User.class, id);
             log.info("User is got from DB");
@@ -29,7 +29,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         User result = null;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             try {
@@ -55,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
     public Boolean createUser(User user) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            User existingUser = findUserByEmail(user.getEmail());
+            User existingUser = getUserByEmail(user.getEmail());
             if (existingUser == null) {
                 session.getTransaction().begin();
                 session.persist(user);

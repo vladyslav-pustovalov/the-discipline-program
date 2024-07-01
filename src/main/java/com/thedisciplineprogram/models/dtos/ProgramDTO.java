@@ -17,7 +17,7 @@ import java.time.LocalDate;
 })
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TrainingProgramDTO {
+public class ProgramDTO {
     @JsonProperty("id")
     private Long id;
     @JsonProperty("startDate")

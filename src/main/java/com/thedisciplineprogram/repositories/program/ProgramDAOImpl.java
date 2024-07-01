@@ -1,6 +1,6 @@
-package com.thedisciplineprogram.repositories.training_program;
+package com.thedisciplineprogram.repositories.program;
 
-import com.thedisciplineprogram.models.db_entities.TrainingProgram;
+import com.thedisciplineprogram.models.db_entities.Program;
 import com.thedisciplineprogram.utils.HibernateSessionFactoryUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -9,22 +9,22 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class TrainingProgramDAOImpl implements TrainingProgramDAO {
+public class ProgramDAOImpl implements ProgramDAO {
 
     @Override
-    public TrainingProgram findProgramById(Long id) {
+    public Program getProgramById(Long id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            TrainingProgram result = session.get(TrainingProgram.class, id);
+            Program result = session.get(Program.class, id);
             log.info("Training Program is got from DB");
             return result;
         } catch (HibernateException e) {
             log.error(e.getMessage());
         }
-        return new TrainingProgram();
+        return new Program();
     }
 
     @Override
-    public Boolean createProgram(TrainingProgram program) {
+    public Boolean createProgram(Program program) {
         boolean isCreated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
 //            TrainingProgram existingProgram = session.get(TrainingProgram.class, program.getId());
@@ -43,10 +43,10 @@ public class TrainingProgramDAOImpl implements TrainingProgramDAO {
     }
 
     @Override
-    public Boolean updateProgram(TrainingProgram program) {
+    public Boolean updateProgram(Program program) {
         boolean isUpdated = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            TrainingProgram existingProgram = session.get(TrainingProgram.class, program.getId());
+            Program existingProgram = session.get(Program.class, program.getId());
             if (existingProgram != null) {
                 session.getTransaction().begin();
                 session.merge(program);
@@ -64,7 +64,7 @@ public class TrainingProgramDAOImpl implements TrainingProgramDAO {
     public boolean deleteProgramById(Long id) {
         boolean isDeleted = false;
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            TrainingProgram existingProgram = session.get(TrainingProgram.class, id);
+            Program existingProgram = session.get(Program.class, id);
             if (existingProgram != null) {
                 session.getTransaction().begin();
                 session.remove(existingProgram);
