@@ -17,8 +17,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class TeamController {
     private final TeamMapper teamMapper = new TeamMapper();
+    private final TeamService teamService;
+
     @Autowired
-    private TeamService teamService;
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
     @GetMapping
     public ResponseEntity<TeamDTO> getTeamById(@RequestParam(value = "id") long id) {

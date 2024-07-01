@@ -16,8 +16,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class ProgramController {
     private final ProgramMapper programMapper = new ProgramMapper();
+    private final ProgramService programService;
+
     @Autowired
-    private ProgramService programService;
+    public ProgramController(ProgramService programService) {
+        this.programService = programService;
+    }
 
     @GetMapping
     public ResponseEntity<ProgramDTO> getProgramById(@RequestParam(value = "id") long id) {
