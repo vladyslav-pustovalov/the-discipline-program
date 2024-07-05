@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  app:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,3 +9,11 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
+  database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: $TDP_DB_PASS
+      POSTGRES_USER: $TDP_DB_USER
+      POSTGRES_DB: $TDP_DB_SCHEMA
+    ports:
+      - "5432:5432"
