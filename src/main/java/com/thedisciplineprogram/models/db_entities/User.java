@@ -32,7 +32,7 @@ public class User {
     private String phoneNumber;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team team;
 }
