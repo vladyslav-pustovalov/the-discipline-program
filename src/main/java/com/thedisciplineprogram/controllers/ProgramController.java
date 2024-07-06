@@ -2,20 +2,19 @@ package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.db_entities.Program;
 import com.thedisciplineprogram.models.dtos.ProgramDTO;
-import com.thedisciplineprogram.models.mappers.ProgramMapper;
 import com.thedisciplineprogram.services.ProgramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.thedisciplineprogram.utils.mappers.ProgramMapper.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api/program")
 @Slf4j
 public class ProgramController {
-    private final ProgramMapper programMapper = new ProgramMapper();
     private final ProgramService programService;
 
     @Autowired
@@ -27,7 +26,7 @@ public class ProgramController {
     public ResponseEntity<ProgramDTO> getProgramById(@RequestParam(value = "id") long id) {
         Program resultEntity = programService.getProgramById(id);
         if (resultEntity != null) {
-            return ResponseEntity.ok(programMapper.mapProgramToProgramDTO(resultEntity));
+            return ResponseEntity.ok(mapProgramToProgramDTO(resultEntity));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -38,7 +37,7 @@ public class ProgramController {
             produces = APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Boolean> createProgram(@RequestBody ProgramDTO programDTO) {
-        Boolean result = programService.createProgram(programMapper.mapProgramDTOToProgram(programDTO));
+        Boolean result = programService.createProgram(mapProgramDTOToProgram(programDTO));
         if (result) {
             return ResponseEntity.ok(true);
         } else {
@@ -51,7 +50,7 @@ public class ProgramController {
             produces = APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Boolean> updateProgram(@RequestBody ProgramDTO programDTO) {
-        Boolean result = programService.updateProgram(programMapper.mapProgramDTOToProgram(programDTO));
+        Boolean result = programService.updateProgram(mapProgramDTOToProgram(programDTO));
         if (result) {
             return ResponseEntity.ok(true);
         } else {
