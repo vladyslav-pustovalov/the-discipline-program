@@ -31,7 +31,6 @@ public class HibernateSessionFactoryUtil {
         configuration.setProperty("hibernate.connection.username", System.getenv("TDP_DB_USER"));
         configuration.setProperty("hibernate.connection.password", System.getenv("TDP_DB_PASS"));
 
-        configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.format_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
