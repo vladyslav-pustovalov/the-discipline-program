@@ -1,13 +1,13 @@
-package com.thedisciplineprogram.models.mappers;
+package com.thedisciplineprogram.utils.mappers;
 
 import com.thedisciplineprogram.models.db_entities.User;
 import com.thedisciplineprogram.models.dtos.UserDTO;
 
-public class UserMapper {
-    private final TeamMapper teamMapper = new TeamMapper();
-    private final ProgramMapper programMapper = new ProgramMapper();
+import static com.thedisciplineprogram.utils.mappers.TeamMapper.*;
 
-    public UserDTO mapUserToUserDTO(User user) {
+public class UserMapper {
+
+    public static UserDTO mapUserToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
@@ -18,12 +18,11 @@ public class UserMapper {
         userDTO.setLastName(user.getLastName());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setDateOfBirth(user.getDateOfBirth());
-        userDTO.setTeam(teamMapper
-                .mapTeamEntityToTeamDTO(user.getTeam()));
+        userDTO.setTeam(mapTeamEntityToTeamDTO(user.getTeam()));
         return userDTO;
     }
 
-    public User mapUserDTOToUser(UserDTO userDTO) {
+    public static User mapUserDTOToUser(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
         user.setEmail(userDTO.getEmail());
@@ -34,8 +33,7 @@ public class UserMapper {
         user.setLastName(userDTO.getLastName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setDateOfBirth(userDTO.getDateOfBirth());
-        user.setTeam(teamMapper
-                .mapTeamDTOToTeam(userDTO.getTeam()));
+        user.setTeam(mapTeamDTOToTeam(userDTO.getTeam()));
         return user;
     }
 }
