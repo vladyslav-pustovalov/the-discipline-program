@@ -1,0 +1,22 @@
+name: Docker CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: action/checkout@v4
+      - name: Shutdown the service
+        run: docker-compose down
+      - name: Update the container
+        run: docker compose pull
+      - name: Up the service
+        run: docker compose up -d
