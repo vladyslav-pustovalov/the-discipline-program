@@ -12,11 +12,16 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+
     steps:
-      - uses: action/checkout@v4
-      - name: Shutdown the service
-        run: docker-compose down
-      - name: Update the container
-        run: docker compose pull
-      - name: Up the service
-        run: docker compose up -d
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t the-discipline-program-backend:latest .
+          docker-compose down
+          docker-compose up -d --build
