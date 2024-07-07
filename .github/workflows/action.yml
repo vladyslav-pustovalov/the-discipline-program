@@ -12,9 +12,21 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    env:
+      TDP_DB_URL: ${{ secrets.TDP_DB_URL }}
+      TDP_DB_PORT: ${{ secrets.TDP_DB_PORT }}
+      TDP_DB_SCHEMA: ${{ secrets.TDP_DB_SCHEMA }}
+      TDP_DB_USER: ${{ secrets.TDP_DB_USER }}
+      TDP_DB_PASS: ${{ secrets.TDP_DB_PASS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
