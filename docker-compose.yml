@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  database:
+    container_name: db_container
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: $TDP_DB_PASS
+      POSTGRES_USER: $TDP_DB_USER
+      POSTGRES_DB: $TDP_DB_SCHEMA
+    ports:
+      - "5432:5432"
   backend:
     container_name: backend_container
     build:
@@ -14,12 +23,5 @@ services:
       TDP_DB_USER: $TDP_DB_USER
       TDP_DB_PASS: $TDP_DB_PASS
       TDP_DB_SCHEMA: $TDP_DB_SCHEMA
-  database:
-    container_name: db_container
-    image: postgres:alpine
-    environment:
-      POSTGRES_PASSWORD: $TDP_DB_PASS
-      POSTGRES_USER: $TDP_DB_USER
-      POSTGRES_DB: $TDP_DB_SCHEMA
-    ports:
-      - "5432:5432"
+    depends_on:
+      - database
