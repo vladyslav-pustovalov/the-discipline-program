@@ -12,9 +12,6 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    needs: [close-repository]
-    container:
-      image: maven:3.9.7-eclipse-temurin-17
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
