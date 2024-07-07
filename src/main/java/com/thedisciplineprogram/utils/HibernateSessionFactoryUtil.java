@@ -18,8 +18,9 @@ public class HibernateSessionFactoryUtil {
 
      static {
         var url = String.format(
-                "jdbc:postgresql://%s:5432/%s",
+                "jdbc:postgresql://%s:%s/%s",
                 System.getenv("TDP_DB_URL"),
+                System.getenv("TDP_DB_PORT"),
                 System.getenv("TDP_DB_SCHEMA")
         );
 

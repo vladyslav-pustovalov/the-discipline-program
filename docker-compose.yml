@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: $TDP_DB_USER
       POSTGRES_DB: $TDP_DB_SCHEMA
     ports:
-      - "5432:5432"
+      - ${TDP_DB_PORT}:$TDP_DB_PORT
   backend:
     container_name: backend_container
     build:
