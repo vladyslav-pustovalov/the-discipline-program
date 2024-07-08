@@ -19,7 +19,7 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      TDP_DB_URL: db_container
+      TDP_DB_HOST: db_container
       TDP_DB_USER: $TDP_DB_USER
       TDP_DB_PASS: $TDP_DB_PASS
       TDP_DB_SCHEMA: $TDP_DB_SCHEMA
