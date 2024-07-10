@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   database:
     container_name: db_container
     image: postgres:alpine
@@ -10,10 +11,13 @@ services:
       POSTGRES_DB: $TDP_DB_SCHEMA
     ports:
       - ${TDP_DB_PORT}:$TDP_DB_PORT
+
   backend:
-    container_name: backend_container
+    depends_on:
+      - database
+    container_name: tdp_backend_container
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -23,5 +27,13 @@ services:
       TDP_DB_USER: $TDP_DB_USER
       TDP_DB_PASS: $TDP_DB_PASS
       TDP_DB_SCHEMA: $TDP_DB_SCHEMA
+
+  frontend:
     depends_on:
-      - database
+      - backend
+    container_name: tdp_frontend_container
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
