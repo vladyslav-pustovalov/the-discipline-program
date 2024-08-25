@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: the-discipline-program
+  datasource:
+    url: jdbc:postgresql://${TDP_DB_HOST}:${TDP_DB_PORT}/${TDP_DB_SCHEMA}
+    username: ${TDP_DB_USER}
+    password: ${TDP_DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
