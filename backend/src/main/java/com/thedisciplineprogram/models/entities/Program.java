@@ -1,37 +1,28 @@
-package com.thedisciplineprogram.models.dtos;
+package com.thedisciplineprogram.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thedisciplineprogram.models.enums.Level;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-@JsonPropertyOrder({
-        "id",
-        "startDate",
-        "endDate",
-        "level",
-        "program"
-})
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ProgramDTO {
-    @JsonProperty("id")
+@Entity
+@Table(name = "programs")
+public class Program {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("startDate")
     private LocalDate startDate;
-    @JsonProperty("endDate")
     private LocalDate endDate;
-    @JsonProperty("level")
+    @Enumerated(EnumType.STRING)
     private Level level;
-    @JsonProperty("program")
+    @Lob
     private String program;
 
-    public ProgramDTO() {
+    public Program() {
     }
 
-    public ProgramDTO(Long id, LocalDate startDate, LocalDate endDate, Level level, String program) {
+    public Program(Long id, LocalDate startDate, LocalDate endDate, Level level, String program) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -83,8 +74,8 @@ public class ProgramDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProgramDTO that = (ProgramDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && level == that.level && Objects.equals(program, that.program);
+        Program program1 = (Program) o;
+        return Objects.equals(id, program1.id) && Objects.equals(startDate, program1.startDate) && Objects.equals(endDate, program1.endDate) && level == program1.level && Objects.equals(program, program1.program);
     }
 
     @Override
@@ -94,7 +85,7 @@ public class ProgramDTO {
 
     @Override
     public String toString() {
-        return "ProgramDTO{" +
+        return "Program{" +
                 "id=" + id +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

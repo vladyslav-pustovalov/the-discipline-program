@@ -1,70 +1,41 @@
 package com.thedisciplineprogram.controllers;
 
-import com.thedisciplineprogram.models.db_entities.Team;
 import com.thedisciplineprogram.models.dtos.TeamDTO;
-import com.thedisciplineprogram.services.TeamService;
-import lombok.extern.slf4j.Slf4j;
+import com.thedisciplineprogram.models.entities.Team;
+import com.thedisciplineprogram.services.team.TeamService;
+import com.thedisciplineprogram.utils.mappers.TeamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import static com.thedisciplineprogram.utils.mappers.TeamMapper.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @RestController
 @RequestMapping("/api/team")
-@Slf4j
 public class TeamController {
-    private final TeamService teamService;
-
+    private final TeamMapper mapper = TeamMapper.INSTANCE;
     @Autowired
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
+    private TeamService teamService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
+        TeamDTO result =  mapper.teamToTeamDTO(teamService.getTeamById(id));
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping
-    public ResponseEntity<TeamDTO> getTeamById(@RequestParam(value = "id") long id) {
-        Team resultEntity = teamService.getTeamById(id);
-        if (resultEntity != null) {
-            return ResponseEntity.ok(mapTeamEntityToTeamDTO(resultEntity));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO teamDTO) {
+        Team result = teamService.createTeam(mapper.teamDTOToTeam(teamDTO));
+        return ResponseEntity.ok(mapper.teamToTeamDTO(result));
     }
 
-    @PostMapping(
-            consumes = APPLICATION_JSON_VALUE,
-            produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> createTeam(@RequestBody TeamDTO teamDTO) {
-        Boolean result = teamService.createTeam(mapTeamDTOToTeam(teamDTO));
-        if (result) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    @PutMapping
+    public ResponseEntity<TeamDTO> updateTeam(@RequestBody TeamDTO teamDTO) {
+        Team result = teamService.updateTeam(teamDTO.getId(), mapper.teamDTOToTeam(teamDTO));
+        return ResponseEntity.ok(mapper.teamToTeamDTO(result));
     }
 
-    @PutMapping(
-            consumes = APPLICATION_JSON_VALUE,
-            produces = APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Boolean> updateTeam(@RequestBody TeamDTO teamDTO) {
-        Boolean result = teamService.updateTeam(mapTeamDTOToTeam(teamDTO));
-        if (result) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteTeamById(@RequestParam(value = "id") long id) {
-        Boolean result = teamService.deleteTeamById(id);
-        if (result) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
+        teamService.deleteTeamById(id);
+        return ResponseEntity.noContent().build();
     }
 }

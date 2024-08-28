@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS programs (
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    email varchar(100) NOT NULL,
+    email varchar(100) NOT NULL UNIQUE,
     password varchar(32) NOT NULL,
     role role NOT NULL,
     level level,

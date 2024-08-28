@@ -1,21 +1,15 @@
 package com.thedisciplineprogram.utils.mappers;
 
-import com.thedisciplineprogram.models.db_entities.Team;
 import com.thedisciplineprogram.models.dtos.TeamDTO;
+import com.thedisciplineprogram.models.entities.Team;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-public class TeamMapper {
+@Mapper
+public interface TeamMapper {
+    TeamMapper INSTANCE = Mappers.getMapper(TeamMapper.class);
 
-    public static TeamDTO mapTeamEntityToTeamDTO(Team team) {
-        TeamDTO result = new TeamDTO();
-        result.setId(team.getId());
-        result.setName(team.getName());
-        return result;
-    }
+    TeamDTO teamToTeamDTO(Team team);
 
-    public static Team mapTeamDTOToTeam(TeamDTO teamDTO) {
-        Team result = new Team();
-        result.setId(teamDTO.getId());
-        result.setName(teamDTO.getName());
-        return result;
-    }
+    Team teamDTOToTeam(TeamDTO teamDTO);
 }

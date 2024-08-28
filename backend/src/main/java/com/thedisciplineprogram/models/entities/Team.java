@@ -1,26 +1,26 @@
-package com.thedisciplineprogram.models.dtos;
+package com.thedisciplineprogram.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@JsonPropertyOrder({
-        "id",
-        "name"
-})
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class TeamDTO {
-    @JsonProperty("id")
+@Entity
+@Table(name = "teams")
+public class Team {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("name")
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "team_id")
+    private Set<User> users = new HashSet<>();
 
-    public TeamDTO() {
+    public Team() {
     }
 
-    public TeamDTO(Long id, String name) {
+    public Team(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -45,8 +45,8 @@ public class TeamDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeamDTO teamDTO = (TeamDTO) o;
-        return Objects.equals(id, teamDTO.id) && Objects.equals(name, teamDTO.name);
+        Team team = (Team) o;
+        return Objects.equals(id, team.id) && Objects.equals(name, team.name);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TeamDTO {
 
     @Override
     public String toString() {
-        return "TeamDTO{" +
+        return "Team{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
