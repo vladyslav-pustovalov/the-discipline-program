@@ -3,8 +3,7 @@ package com.thedisciplineprogram.models.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.thedisciplineprogram.models.enums.Level;
-import com.thedisciplineprogram.models.enums.Role;
+import com.thedisciplineprogram.models.dtos.programs.UserRoleDTO;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,8 +12,8 @@ import java.util.Objects;
         "id",
         "email",
         "password",
-        "role",
-        "level",
+        "userRole",
+        "trainingLevel",
         "firstName",
         "lastName",
         "proneNumber",
@@ -29,10 +28,10 @@ public class UserDTO {
     private String email;
     @JsonProperty("password")
     private String password;
-    @JsonProperty("role")
-    private Role role;
-    @JsonProperty("level")
-    private Level level;
+    @JsonProperty("userRole")
+    private UserRoleDTO userRole;
+    @JsonProperty("trainingLevel")
+    private TrainingLevelDTO trainingLevel;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")
@@ -47,12 +46,12 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String email, String password, Role role, Level level, String firstName, String lastName, String phoneNumber, LocalDate dateOfBirth, TeamDTO team) {
+    public UserDTO(Long id, String email, String password, UserRoleDTO userRole, TrainingLevelDTO trainingLevel, String firstName, String lastName, String phoneNumber, LocalDate dateOfBirth, TeamDTO team) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.level = level;
+        this.userRole = userRole;
+        this.trainingLevel = trainingLevel;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -84,20 +83,20 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public UserRoleDTO getRole() {
+        return userRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(UserRoleDTO role) {
+        this.userRole = userRole;
     }
 
-    public Level getLevel() {
-        return level;
+    public TrainingLevelDTO getLevel() {
+        return trainingLevel;
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setLevel(TrainingLevelDTO level) {
+        this.trainingLevel = trainingLevel;
     }
 
     public String getFirstName() {
@@ -145,12 +144,12 @@ public class UserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(id, userDTO.id) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password) && role == userDTO.role && level == userDTO.level && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(phoneNumber, userDTO.phoneNumber) && Objects.equals(dateOfBirth, userDTO.dateOfBirth) && Objects.equals(team, userDTO.team);
+        return Objects.equals(id, userDTO.id) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password) && userRole == userDTO.userRole && trainingLevel == userDTO.trainingLevel && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(phoneNumber, userDTO.phoneNumber) && Objects.equals(dateOfBirth, userDTO.dateOfBirth) && Objects.equals(team, userDTO.team);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, role, level, firstName, lastName, phoneNumber, dateOfBirth, team);
+        return Objects.hash(id, email, password, userRole, trainingLevel, firstName, lastName, phoneNumber, dateOfBirth, team);
     }
 
     @Override
@@ -159,8 +158,8 @@ public class UserDTO {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
-                ", level=" + level +
+                ", role=" + userRole +
+                ", level=" + trainingLevel +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

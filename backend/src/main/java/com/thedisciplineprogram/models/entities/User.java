@@ -8,34 +8,43 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
     private String phoneNumber;
-    private String level;
-    private String role;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private LocalDate dateOfBirth;
+
+    @ManyToOne
+    @JoinColumn(name = "user_role_id", nullable = false)
+    private UserRole userRole;
+
+    @ManyToOne
+    @JoinColumn(name = "training_level_id")
+    private TrainingLevel trainingLevel;
+
+    @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
     public User() {
     }
 
-    public User(Long id, String email, String password, String firstName, String lastName, LocalDate dateOfBirth, String phoneNumber, String level, String role, Team team) {
+    public User(Long id, String email, String password, String firstName, String lastName, String phoneNumber, LocalDate dateOfBirth, UserRole userRole, TrainingLevel trainingLevel, Team team) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
-        this.level = level;
-        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.userRole = userRole;
+        this.trainingLevel = trainingLevel;
         this.team = team;
     }
 
@@ -43,93 +52,92 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public TrainingLevel getTrainingLevel() {
+        return trainingLevel;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getLevel() {
-        return level;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
-    public String getRole() {
-        return role;
+    public void setTrainingLevel(TrainingLevel trainingLevel) {
+        this.trainingLevel = trainingLevel;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Team getTeamId() {
-        return team;
-    }
-
-    public void setTeamId(Team team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(dateOfBirth, user.dateOfBirth) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(level, user.level) && Objects.equals(role, user.role) && Objects.equals(team, user.team);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(dateOfBirth, user.dateOfBirth) && Objects.equals(userRole, user.userRole) && Objects.equals(trainingLevel, user.trainingLevel) && Objects.equals(team, user.team);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, firstName, lastName, dateOfBirth, phoneNumber, level, role, team);
+        return Objects.hash(id, email, password, firstName, lastName, phoneNumber, dateOfBirth, userRole, trainingLevel, team);
     }
 
     @Override
@@ -140,12 +148,11 @@ public class User {
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", level='" + level + '\'' +
-                ", role='" + role + '\'' +
-                ", teamId=" + team +
+                ", dateOfBirth=" + dateOfBirth +
+                ", userRole=" + userRole +
+                ", trainingLevel=" + trainingLevel +
+                ", team=" + team +
                 '}';
     }
 }
-
