@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/program")
+@RequestMapping("/api/v1/program")
 public class ProgramController {
     private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
     @Autowired

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/team")
+@RequestMapping("/api/v1/team")
 public class TeamController {
     private final TeamMapper mapper = TeamMapper.INSTANCE;
     @Autowired

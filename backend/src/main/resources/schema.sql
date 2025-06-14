@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS teams (
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(32) NOT NULL,
+    login VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     user_role_id INTEGER NOT NULL,
     training_level_id INTEGER,
     first_name VARCHAR(32),
@@ -71,15 +71,8 @@ INSERT INTO training_levels (id, name) VALUES
 
 INSERT INTO user_roles (id, name) VALUES
     (1, 'USER'),
-    (2, 'COACH'),
     (3, 'ADMIN');
 
 INSERT INTO teams (id, name) VALUES
     (1, 'Team Alpha'),
     (2, 'Team Beta');
-
-INSERT INTO users (
-    id, email, password, user_role_id, training_level_id, first_name, last_name, phone_number, date_of_birth, team_id
-) VALUES
-    (1, 'john.doe@example.com', 'pass123', 1, 1, 'John', 'Doe', '+1234567890', '1990-01-01', 1),
-    (2, 'coach.jane@example.com', 'pass456', 2, 3, 'Jane', 'Smith', '+1987654321', '1985-05-05', 2);
