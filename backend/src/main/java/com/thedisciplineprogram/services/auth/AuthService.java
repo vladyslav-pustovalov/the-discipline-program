@@ -20,8 +20,7 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        var user =  userRepository.findByLogin(username);
-        return user;
+        return userRepository.findByLogin(username);
     }
 
     public UserDetails signUp(SignUpDTO data) throws UserAlreadyExistsException {
@@ -30,7 +29,6 @@ public class AuthService implements UserDetailsService {
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
         User newUser = new User(data.getLogin(), encryptedPassword, new UserRole(1L, "USER"));
-        log.info("User entity created: " + newUser.toString());
 
         return userRepository.save(newUser);
     }

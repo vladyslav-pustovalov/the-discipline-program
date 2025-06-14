@@ -21,7 +21,6 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        log.info("Service: " + user.toString());
         return user;
     }
 
