@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/v1/program")
+@RequestMapping("/v1/program")
 public class ProgramController {
     private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
     @Autowired

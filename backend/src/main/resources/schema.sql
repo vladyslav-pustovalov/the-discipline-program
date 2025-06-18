@@ -71,7 +71,7 @@ INSERT INTO training_levels (id, name) VALUES
 
 INSERT INTO user_roles (id, name) VALUES
     (1, 'USER'),
-    (3, 'ADMIN');
+    (2, 'ADMIN');
 
 INSERT INTO teams (id, name) VALUES
     (1, 'Team Alpha'),

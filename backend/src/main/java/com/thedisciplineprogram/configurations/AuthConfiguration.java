@@ -27,10 +27,10 @@ public class AuthConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/program").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/program").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/program").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/v1/auth/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/program").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/v1/program").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/program").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
