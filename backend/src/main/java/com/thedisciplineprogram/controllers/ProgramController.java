@@ -1,15 +1,20 @@
 package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
-import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
 import com.thedisciplineprogram.services.program.ProgramService;
 import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api/v1/program")
+@Slf4j
 public class ProgramController {
     private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
     @Autowired
@@ -18,6 +23,19 @@ public class ProgramController {
     @GetMapping("/{id}")
     public ResponseEntity<GeneralProgramDTO> getProgramById(@PathVariable Long id) {
         return ResponseEntity.ok(programService.getProgramDTOById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<GeneralProgramDTO> getProgramById(
+            @RequestParam(value = "userId") Long userId,
+            @RequestParam(value = "scheduledDate") LocalDate scheduledDate
+            ) {
+        GeneralProgramDTO result = programService.getProgramDTOByUserIdAndDate(userId, scheduledDate);
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @PostMapping

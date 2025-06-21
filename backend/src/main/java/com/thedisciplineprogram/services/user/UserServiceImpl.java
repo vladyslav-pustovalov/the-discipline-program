@@ -6,13 +6,11 @@ import com.thedisciplineprogram.exceptions.user.UserSaveException;
 import com.thedisciplineprogram.exceptions.user.UserUpdateException;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.repositories.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
