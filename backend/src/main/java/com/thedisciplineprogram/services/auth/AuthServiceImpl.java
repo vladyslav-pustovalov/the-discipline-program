@@ -49,6 +49,6 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         var auth = authenticationManager.authenticate(usernamePassword);
         var user = (User) auth.getPrincipal();
         var accessToken = tokenProvider.generateAccessToken(user);
-        return new JwtDTO(user.getId().toString(), accessToken);
+        return new JwtDTO(user.getId(), accessToken);
     }
 }

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtDTO {
-    private String userId;
+    private Long userId;
     private String accessToken;
 }
