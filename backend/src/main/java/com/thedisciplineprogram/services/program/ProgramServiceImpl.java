@@ -4,39 +4,46 @@ import com.thedisciplineprogram.exceptions.program.ProgramDeleteException;
 import com.thedisciplineprogram.exceptions.program.ProgramNotFoundException;
 import com.thedisciplineprogram.exceptions.program.ProgramSaveException;
 import com.thedisciplineprogram.exceptions.program.ProgramUpdateException;
-import com.thedisciplineprogram.models.entities.Program;
-import com.thedisciplineprogram.repositories.ProgramRepository;
+import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
+import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
+import com.thedisciplineprogram.repositories.programs.GeneralProgramRepository;
+import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
+    private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
     @Autowired
-    private ProgramRepository programRepository;
+    private GeneralProgramRepository programRepository;
 
     @Override
-    public Program getProgramById(Long id) {
-        return programRepository.findById(id)
+    public GeneralProgramDTO getProgramDTOById(Long id) {
+        GeneralProgram entity = programRepository.findById(id)
                 .orElseThrow(() -> new ProgramNotFoundException("Program not found:" + id));
+        return generalProgramMapper.toDTO(entity);
     }
 
     @Override
-    public Program createProgram(Program program) {
+    public GeneralProgramDTO createProgram(GeneralProgramDTO programDTO) {
+        GeneralProgram entity = generalProgramMapper.toEntity(programDTO);
+        GeneralProgram saved = programRepository.save(entity);
         try {
-            return programRepository.save(program);
+            return generalProgramMapper.toDTO(saved);
         } catch (DataIntegrityViolationException e) {
             throw new ProgramSaveException("Failed to save program", e);
         }
     }
 
     @Override
-    public Program updateProgram(Long id, Program program) {
-        Program oldProgram = programRepository.findById(id)
+    public GeneralProgramDTO updateProgram(Long id, GeneralProgramDTO programDTO) {
+        GeneralProgram oldProgram = programRepository.findById(id)
                 .orElseThrow(() -> new ProgramNotFoundException("Program not found with id: " + id));
+        GeneralProgram updatedProgram = programRepository.save(generalProgramMapper.toEntity(programDTO));
 
         try {
-            return programRepository.save(program);
+            return generalProgramMapper.toDTO(updatedProgram);
         } catch (DataIntegrityViolationException e) {
             throw new ProgramUpdateException("Failed to update program", e);
         }
@@ -44,9 +51,8 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public void deleteProgramById(Long id) {
-        Program existingProgram = programRepository.findById(id)
+        GeneralProgram existingProgram = programRepository.findById(id)
                         .orElseThrow(() -> new ProgramNotFoundException("Program not found with id: " + id));
-
         try {
             programRepository.delete(existingProgram);
         } catch (DataIntegrityViolationException e) {
