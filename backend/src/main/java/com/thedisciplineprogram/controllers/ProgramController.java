@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1/program")
@@ -32,8 +31,10 @@ public class ProgramController {
             ) {
         GeneralProgramDTO result = programService.getProgramDTOByUserIdAndDate(userId, scheduledDate);
         if (result == null) {
+            log.info("Program for user: " + userId + " for " + scheduledDate.toString() + " is not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+            log.info("Program: " + result.toString());
             return ResponseEntity.ok(result);
         }
     }

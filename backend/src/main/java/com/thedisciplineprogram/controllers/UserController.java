@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.controllers;
 
+import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
 import com.thedisciplineprogram.models.dtos.UserDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.services.user.UserService;
@@ -34,8 +35,16 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        log.info("User received for update: " + userDTO.toString());
         User result = userService.updateUser(userDTO.getId(), mapper.userDTOToUser(userDTO));
+        log.info("User updated: " + result.toString());
         return ResponseEntity.ok(mapper.userToUserDTO(result));
+    }
+
+    @PatchMapping("/{id}/changePassword")
+    public ResponseEntity<Void> changeUserPassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        userService.changeUserPassword(changePasswordDTO);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

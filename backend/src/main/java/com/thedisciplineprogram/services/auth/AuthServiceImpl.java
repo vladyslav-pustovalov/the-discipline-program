@@ -14,7 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +26,8 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     @Autowired
     @Lazy
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -37,7 +39,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         if (userRepository.findByLogin(data.getLogin()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
+        String encryptedPassword = passwordEncoder.encode(data.getPassword());
         User newUser = new User(data.getLogin(), encryptedPassword, new UserRole(1L, "USER"));
 
         return userRepository.save(newUser);

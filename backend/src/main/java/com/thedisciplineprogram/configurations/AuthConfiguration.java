@@ -28,10 +28,12 @@ public class AuthConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/changePassword").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/program").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/program").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/program").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
