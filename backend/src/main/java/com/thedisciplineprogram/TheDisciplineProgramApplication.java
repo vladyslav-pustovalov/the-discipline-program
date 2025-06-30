@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
-@PropertySource("file:${user.dir}/.env")
 public class TheDisciplineProgramApplication {
     @Autowired
     private Environment env;
