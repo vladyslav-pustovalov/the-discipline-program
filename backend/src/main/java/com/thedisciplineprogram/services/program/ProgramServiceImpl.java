@@ -19,7 +19,8 @@ import java.time.LocalDate;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
-    private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
+    @Autowired
+    private GeneralProgramMapper generalProgramMapper;
     @Autowired
     private GeneralProgramRepository programRepository;
     @Autowired

@@ -17,20 +17,20 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
-        TeamDTO result =  mapper.teamToTeamDTO(teamService.getTeamById(id));
+        TeamDTO result =  mapper.toDTO(teamService.getTeamById(id));
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
     public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO teamDTO) {
-        Team result = teamService.createTeam(mapper.teamDTOToTeam(teamDTO));
-        return ResponseEntity.ok(mapper.teamToTeamDTO(result));
+        Team result = teamService.createTeam(mapper.toEntity(teamDTO));
+        return ResponseEntity.ok(mapper.toDTO(result));
     }
 
     @PutMapping
     public ResponseEntity<TeamDTO> updateTeam(@RequestBody TeamDTO teamDTO) {
-        Team result = teamService.updateTeam(teamDTO.getId(), mapper.teamDTOToTeam(teamDTO));
-        return ResponseEntity.ok(mapper.teamToTeamDTO(result));
+        Team result = teamService.updateTeam(teamDTO.getId(), mapper.toEntity(teamDTO));
+        return ResponseEntity.ok(mapper.toDTO(result));
     }
 
     @DeleteMapping("/{id}")

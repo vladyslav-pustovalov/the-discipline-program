@@ -17,14 +17,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final UserMapper userMapper = UserMapper.INSTANCE;
-    private final UserRequestMapper userRequestMapper = UserRequestMapper.INSTANCE;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserRequestMapper userRequestMapper;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    //TODO: change this to return UserDTO like in ProgramService, for removing the mapping logic from the UserController
     @Override
     public UserRequestDTO getUserById(Long id) {
         User user = userRepository.findById(id)
