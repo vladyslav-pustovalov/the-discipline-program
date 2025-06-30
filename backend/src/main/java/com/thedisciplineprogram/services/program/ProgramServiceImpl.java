@@ -5,7 +5,7 @@ import com.thedisciplineprogram.exceptions.program.ProgramNotFoundException;
 import com.thedisciplineprogram.exceptions.program.ProgramSaveException;
 import com.thedisciplineprogram.exceptions.program.ProgramUpdateException;
 import com.thedisciplineprogram.exceptions.user.UserNotFoundException;
-import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
 import com.thedisciplineprogram.repositories.UserRepository;

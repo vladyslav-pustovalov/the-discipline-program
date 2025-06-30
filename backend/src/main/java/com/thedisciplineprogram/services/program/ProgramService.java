@@ -1,6 +1,6 @@
 package com.thedisciplineprogram.services.program;
 
-import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 
 import java.time.LocalDate;
 

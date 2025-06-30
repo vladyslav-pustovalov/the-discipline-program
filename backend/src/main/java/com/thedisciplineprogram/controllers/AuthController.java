@@ -1,8 +1,8 @@
 package com.thedisciplineprogram.controllers;
 
-import com.thedisciplineprogram.models.dtos.JwtDTO;
-import com.thedisciplineprogram.models.dtos.SignInDTO;
-import com.thedisciplineprogram.models.dtos.SignUpDTO;
+import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import com.thedisciplineprogram.services.auth.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

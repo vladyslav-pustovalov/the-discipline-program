@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.models.dtos;
+package com.thedisciplineprogram.models.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

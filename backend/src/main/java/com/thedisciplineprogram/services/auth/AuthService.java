@@ -1,8 +1,8 @@
 package com.thedisciplineprogram.services.auth;
 
-import com.thedisciplineprogram.models.dtos.JwtDTO;
-import com.thedisciplineprogram.models.dtos.SignInDTO;
-import com.thedisciplineprogram.models.dtos.SignUpDTO;
+import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface AuthService {

@@ -1,6 +1,6 @@
 package com.thedisciplineprogram.utils.mappers;
 
-import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

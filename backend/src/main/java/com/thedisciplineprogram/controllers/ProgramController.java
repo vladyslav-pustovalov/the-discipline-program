@@ -1,6 +1,6 @@
 package com.thedisciplineprogram.controllers;
 
-import com.thedisciplineprogram.models.dtos.programs.GeneralProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.services.program.ProgramService;
 import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
 import lombok.extern.slf4j.Slf4j;

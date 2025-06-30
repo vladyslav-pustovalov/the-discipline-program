@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.models.dtos;
+package com.thedisciplineprogram.models.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtDTO {
-    private Long userId;
-    private String accessToken;
+public class SignUpDTO {
+    String login;
+    String password;
 }

@@ -1,8 +1,11 @@
-package com.thedisciplineprogram.models.dtos;
+package com.thedisciplineprogram.models.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.thedisciplineprogram.models.dtos.TeamDTO;
+import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
+import com.thedisciplineprogram.models.dtos.UserRoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

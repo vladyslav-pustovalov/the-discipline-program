@@ -1,9 +1,9 @@
-package com.thedisciplineprogram.models.dtos.programs;
+package com.thedisciplineprogram.models.dtos.program;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.thedisciplineprogram.models.dtos.UserDTO;
+import com.thedisciplineprogram.models.dtos.user.UserDTO;
 
 import java.time.LocalDate;
 import java.util.Objects;

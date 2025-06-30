@@ -2,7 +2,7 @@ package com.thedisciplineprogram.utils.mappers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thedisciplineprogram.models.dtos.programs.DailyProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.DailyProgramDTO;
 import org.mapstruct.Named;
 
 public class DailyProgramMapper {

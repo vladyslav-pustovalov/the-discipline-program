@@ -1,10 +1,12 @@
 package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
-import com.thedisciplineprogram.models.dtos.UserDTO;
+import com.thedisciplineprogram.models.dtos.user.UserDTO;
+import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.services.user.UserService;
 import com.thedisciplineprogram.utils.mappers.UserMapper;
+import com.thedisciplineprogram.utils.mappers.UserRequestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,31 +16,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/user")
 @Slf4j
 public class UserController {
-    private final UserMapper mapper = UserMapper.INSTANCE;
+    private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final UserRequestMapper userRequestMapper = UserRequestMapper.INSTANCE;
     @Autowired
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserRequestDTO> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         log.info(user.toString());
-        UserDTO result = mapper.userToUserDTO(user);
+        UserRequestDTO result = userRequestMapper.toDTO(user);
         log.info(result.toString());
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        User result = userService.createUser(mapper.userDTOToUser(userDTO));
-        return ResponseEntity.ok(mapper.userToUserDTO(result));
+        User newUser = userMapper.toEntity(userDTO);
+        log.info("New user entity: " + newUser);
+        User saved = userService.createUser(newUser);
+        log.info("Saved new user: " + saved);
+        UserDTO result = userMapper.toDTO(saved);
+        log.info("DTO new user: " + result);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
-        log.info("User received for update: " + userDTO.toString());
-        User result = userService.updateUser(userDTO.getId(), mapper.userDTOToUser(userDTO));
+    public ResponseEntity<UserRequestDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
+        log.info("User received for update: " + userRequestDTO.toString());
+        User result = userService.updateUser(userRequestDTO.getId(), userRequestMapper.toEntity(userRequestDTO));
         log.info("User updated: " + result.toString());
-        return ResponseEntity.ok(mapper.userToUserDTO(result));
+        return ResponseEntity.ok(userRequestMapper.toDTO(result));
     }
 
     @PatchMapping("/{id}/changePassword")

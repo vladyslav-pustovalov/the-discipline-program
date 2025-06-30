@@ -2,9 +2,9 @@ package com.thedisciplineprogram.services.auth;
 
 import com.thedisciplineprogram.configurations.auth.TokenProvider;
 import com.thedisciplineprogram.exceptions.user.UserAlreadyExistsException;
-import com.thedisciplineprogram.models.dtos.JwtDTO;
-import com.thedisciplineprogram.models.dtos.SignInDTO;
-import com.thedisciplineprogram.models.dtos.SignUpDTO;
+import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
+import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.models.entities.UserRole;
 import com.thedisciplineprogram.repositories.UserRepository;

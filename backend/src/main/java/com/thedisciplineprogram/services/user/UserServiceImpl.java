@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User user) {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        //TODO: make here somehow doing password encrypted the correct way, maybe with doing some kind of UserResponseDTO
-        // and UserRequestDTO for not having a user's password sent via API
+        user.setPassword(oldUser.getPassword());
+
         try {
             return userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
