@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String login;
+    private String username;
     private String password;
     private String firstName;
     private String lastName;
@@ -38,12 +38,12 @@ public class User implements UserDetails {
     @JoinColumn(name = "training_level_id")
     private TrainingLevel trainingLevel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public User(String login, String password, UserRole userRole) {
-        this.login = login;
+    public User(String username, String password, UserRole userRole) {
+        this.username = username;
         this.password = password;
         this.userRole = userRole;
     }
@@ -54,11 +54,6 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         }
         return List.of( new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
     }
 
     @Override

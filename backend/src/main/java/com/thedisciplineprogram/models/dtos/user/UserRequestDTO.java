@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 @JsonPropertyOrder({
         "id",
-        "login",
+        "username",
         "userRole",
         "trainingLevel",
         "firstName",
@@ -30,8 +30,8 @@ import java.time.LocalDate;
 public class UserRequestDTO {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("login")
-    private String login;
+    @JsonProperty("username")
+    private String username;
     @JsonProperty("userRole")
     private UserRoleDTO userRole;
     @JsonProperty("trainingLevel")
