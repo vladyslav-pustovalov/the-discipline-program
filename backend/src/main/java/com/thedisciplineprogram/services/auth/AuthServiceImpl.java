@@ -31,23 +31,23 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return userRepository.findByLogin(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public UserDetails signUp(SignUpDTO data) throws UserAlreadyExistsException {
-        if (userRepository.findByLogin(data.getLogin()) != null) {
+        if (userRepository.findByUsername(data.getUsername()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }
         String encryptedPassword = passwordEncoder.encode(data.getPassword());
-        User newUser = new User(data.getLogin(), encryptedPassword, new UserRole(1L, "USER"));
+        User newUser = new User(data.getUsername(), encryptedPassword, new UserRole(1L, "USER"));
 
         return userRepository.save(newUser);
     }
 
     @Override
     public JwtDTO signIn(SignInDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
         var user = (User) auth.getPrincipal();
         var accessToken = tokenProvider.generateAccessToken(user);
