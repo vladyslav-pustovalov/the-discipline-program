@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thedisciplineprogram.models.dtos.program.DailyProgramDTO;
 import org.mapstruct.Named;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DailyProgramMapper {
     private final ObjectMapper objectMapper = new ObjectMapper();
 

@@ -5,11 +5,11 @@ import com.thedisciplineprogram.models.entities.Team;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface TeamMapper {
     TeamMapper INSTANCE = Mappers.getMapper(TeamMapper.class);
 
-    TeamDTO teamToTeamDTO(Team team);
+    TeamDTO toDTO(Team team);
 
-    Team teamDTOToTeam(TeamDTO teamDTO);
+    Team toEntity(TeamDTO teamDTO);
 }
