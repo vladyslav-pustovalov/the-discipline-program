@@ -10,7 +10,7 @@ import java.util.Objects;
         "id",
         "name"
 })
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = "id", allowSetters = false, allowGetters = true, ignoreUnknown = true)
 public class TeamDTO {
     @JsonProperty("id")
     private Long id;

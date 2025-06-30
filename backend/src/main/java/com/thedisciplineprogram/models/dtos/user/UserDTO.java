@@ -24,7 +24,7 @@ import java.time.LocalDate;
         "dateOfBirth",
         "team"
 })
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = "id", allowSetters = false, allowGetters = true, ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

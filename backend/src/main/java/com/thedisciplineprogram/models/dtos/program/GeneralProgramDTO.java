@@ -15,7 +15,7 @@ import java.util.Objects;
         "isRestDay",
         "dailyProgram"
 })
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = "id", allowSetters = false, allowGetters = true, ignoreUnknown = true)
 public class GeneralProgramDTO {
     @JsonProperty("id")
     private Long id;
