@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/program")
 @Slf4j
 public class ProgramController {
-    private final GeneralProgramMapper generalProgramMapper = GeneralProgramMapper.INSTANCE;
     @Autowired
     private ProgramService programService;
 

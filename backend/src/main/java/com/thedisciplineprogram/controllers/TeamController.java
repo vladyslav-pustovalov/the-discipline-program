@@ -11,26 +11,27 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/team")
 public class TeamController {
-    private final TeamMapper mapper = TeamMapper.INSTANCE;
+    @Autowired
+    private TeamMapper teamMapper;
     @Autowired
     private TeamService teamService;
 
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
-        TeamDTO result =  mapper.toDTO(teamService.getTeamById(id));
+        TeamDTO result =  teamMapper.toDTO(teamService.getTeamById(id));
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
     public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO teamDTO) {
-        Team result = teamService.createTeam(mapper.toEntity(teamDTO));
-        return ResponseEntity.ok(mapper.toDTO(result));
+        Team result = teamService.createTeam(teamMapper.toEntity(teamDTO));
+        return ResponseEntity.ok(teamMapper.toDTO(result));
     }
 
     @PutMapping
     public ResponseEntity<TeamDTO> updateTeam(@RequestBody TeamDTO teamDTO) {
-        Team result = teamService.updateTeam(teamDTO.getId(), mapper.toEntity(teamDTO));
-        return ResponseEntity.ok(mapper.toDTO(result));
+        Team result = teamService.updateTeam(teamDTO.getId(), teamMapper.toEntity(teamDTO));
+        return ResponseEntity.ok(teamMapper.toDTO(result));
     }
 
     @DeleteMapping("/{id}")
