@@ -21,6 +21,7 @@ public class AuthConfiguration {
     @Autowired
     SecurityFilter securityFilter;
 
+    //TODO: make https required
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
