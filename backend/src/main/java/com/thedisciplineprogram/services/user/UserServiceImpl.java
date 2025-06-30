@@ -2,8 +2,12 @@ package com.thedisciplineprogram.services.user;
 
 import com.thedisciplineprogram.exceptions.user.*;
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
+import com.thedisciplineprogram.models.dtos.user.UserDTO;
+import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.repositories.UserRepository;
+import com.thedisciplineprogram.utils.mappers.UserMapper;
+import com.thedisciplineprogram.utils.mappers.UserRequestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+    private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final UserRequestMapper userRequestMapper = UserRequestMapper.INSTANCE;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -20,32 +26,35 @@ public class UserServiceImpl implements UserService {
 
     //TODO: change this to return UserDTO like in ProgramService, for removing the mapping logic from the UserController
     @Override
-    public User getUserById(Long id) {
-        //TODO: check redundant variable creation
+    public UserRequestDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        return user;
+        return userRequestMapper.toDTO(user);
     }
 
     @Override
-    public User createUser(User user) {
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
+    public UserDTO createUser(UserDTO userDTO) {
+        String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encryptedPassword);
+        User user = userMapper.toEntity(userDTO);
+
         try {
-            return userRepository.save(user);
+            return userMapper.toDTO(userRepository.save(user));
         } catch (DataIntegrityViolationException e) {
             throw new UserSaveException("Failed to save user", e);
         }
     }
 
     @Override
-    public User updateUser(Long id, User user) {
+    public UserRequestDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        User user = userRequestMapper.toEntity(userRequestDTO);
         user.setPassword(oldUser.getPassword());
+        User saved = userRepository.save(user);
 
         try {
-            return userRepository.save(user);
+            return userRequestMapper.toDTO(saved);
         } catch (DataIntegrityViolationException e) {
             throw new UserUpdateException("Failed to update user", e);
         }
