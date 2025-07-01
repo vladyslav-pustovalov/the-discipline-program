@@ -20,10 +20,3 @@ security:
   jwt:
     token:
       secret-key: ${JWT_SECRET}
-#server:
-#  port: 443
-#  ssl:
-#    key-store : classpath:keystore.p12
-#    key-store-password: 590121
-#    keyStoreType: PKCS12
-#    keyAlias: tomcat
