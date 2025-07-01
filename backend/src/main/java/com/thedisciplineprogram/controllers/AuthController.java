@@ -23,14 +23,14 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody SignUpDTO data) {
         authService.signUp(data);
-        log.info("User is registered with data: " + data);
+        log.info("User is registered with data: {}", data);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signin")
     public ResponseEntity<JwtDTO> signIn(@RequestBody SignInDTO data) {
         JwtDTO jwt = authService.signIn(data);
-        log.info("User is logged in: " + jwt.toString());
+        log.info("User is logged in: {}", jwt);
         return ResponseEntity.ok(jwt);
     }
 }

@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @PatchMapping("/{id}/changePassword")
+    @PatchMapping("/changePassword")
     public ResponseEntity<Void> changeUserPassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         userService.changeUserPassword(changePasswordDTO);
         return ResponseEntity.ok().build();

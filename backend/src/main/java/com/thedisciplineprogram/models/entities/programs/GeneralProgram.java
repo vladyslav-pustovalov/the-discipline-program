@@ -4,16 +4,17 @@ import com.thedisciplineprogram.models.entities.TrainingLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
 @Table(name = "general_programs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class GeneralProgram extends BaseProgram {
     @ManyToOne
     @JoinColumn(name = "training_level_id")

@@ -2,7 +2,6 @@ package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.services.program.ProgramService;
-import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +29,10 @@ public class ProgramController {
             ) {
         GeneralProgramDTO result = programService.getProgramDTOByUserIdAndDate(userId, scheduledDate);
         if (result == null) {
-            log.info("Program for user: " + userId + " for " + scheduledDate.toString() + " is not found");
+            log.info("Program for user: {} for {} is not found",  userId, scheduledDate);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            log.info("Program: " + result.toString());
+            log.info("Program: {}", result);
             return ResponseEntity.ok(result);
         }
     }
