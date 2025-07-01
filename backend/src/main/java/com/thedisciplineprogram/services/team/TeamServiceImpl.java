@@ -13,8 +13,12 @@ import com.thedisciplineprogram.exceptions.team.TeamNotFountException;
 
 @Service
 public class TeamServiceImpl implements TeamService {
+    private final TeamRepository teamRepository;
+
     @Autowired
-    private TeamRepository teamRepository;
+    public TeamServiceImpl(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
     @Override
     public Team getTeamById(Long id) {

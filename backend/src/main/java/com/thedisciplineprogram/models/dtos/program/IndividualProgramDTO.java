@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @JsonPropertyOrder({
         "id",
@@ -18,7 +17,7 @@ import java.util.Objects;
         "isRestDay",
         "dailyProgram"
 })
-@JsonIgnoreProperties(value = "id", allowSetters = false, allowGetters = true, ignoreUnknown = true)
+@JsonIgnoreProperties(value = "id", allowGetters = true, ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

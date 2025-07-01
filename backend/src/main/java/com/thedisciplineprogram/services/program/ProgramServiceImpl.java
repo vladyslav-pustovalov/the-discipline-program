@@ -19,12 +19,16 @@ import java.time.LocalDate;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
+    private final GeneralProgramMapper generalProgramMapper;
+    private final GeneralProgramRepository programRepository;
+    private final UserRepository userRepository;
+
     @Autowired
-    private GeneralProgramMapper generalProgramMapper;
-    @Autowired
-    private GeneralProgramRepository programRepository;
-    @Autowired
-    private UserRepository userRepository;
+    public ProgramServiceImpl(GeneralProgramMapper generalProgramMapper, GeneralProgramRepository programRepository, UserRepository userRepository) {
+        this.generalProgramMapper = generalProgramMapper;
+        this.programRepository = programRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public GeneralProgramDTO getProgramDTOById(Long id) {

@@ -17,14 +17,18 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+    private final UserMapper userMapper;
+    private final UserRequestMapper userRequestMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserRequestMapper userRequestMapper;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserMapper userMapper, UserRequestMapper userRequestMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
+        this.userRequestMapper = userRequestMapper;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserRequestDTO getUserById(Long id) {

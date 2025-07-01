@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/team")
 public class TeamController {
+    private final TeamMapper teamMapper;
+    private final TeamService teamService;
+
     @Autowired
-    private TeamMapper teamMapper;
-    @Autowired
-    private TeamService teamService;
+    public TeamController(TeamMapper teamMapper, TeamService teamService) {
+        this.teamMapper = teamMapper;
+        this.teamService = teamService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {

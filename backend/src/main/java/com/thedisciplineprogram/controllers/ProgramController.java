@@ -14,8 +14,12 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/program")
 @Slf4j
 public class ProgramController {
+    private final ProgramService programService;
+
     @Autowired
-    private ProgramService programService;
+    public ProgramController(ProgramService programService) {
+        this.programService = programService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<GeneralProgramDTO> getProgramById(@PathVariable Long id) {

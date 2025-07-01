@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnTransformer;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @MappedSuperclass
 @Data

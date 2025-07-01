@@ -1,6 +1,7 @@
 package com.thedisciplineprogram.services.auth;
 
 import com.thedisciplineprogram.configurations.auth.TokenProvider;
+import com.thedisciplineprogram.exceptions.auth.SignUpException;
 import com.thedisciplineprogram.exceptions.user.UserAlreadyExistsException;
 import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
 import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
@@ -10,6 +11,7 @@ import com.thedisciplineprogram.models.entities.UserRole;
 import com.thedisciplineprogram.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,15 +21,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService, UserDetailsService {
+    private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
-    @Lazy
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AuthServiceImpl(UserRepository userRepository, TokenProvider tokenProvider, @Lazy AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.tokenProvider = tokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -35,14 +40,18 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
-    public UserDetails signUp(SignUpDTO data) throws UserAlreadyExistsException {
+    public void signUp(SignUpDTO data) throws UserAlreadyExistsException {
         if (userRepository.findByUsername(data.getUsername()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }
         String encryptedPassword = passwordEncoder.encode(data.getPassword());
         User newUser = new User(data.getUsername(), encryptedPassword, new UserRole(1L, "USER"));
 
-        return userRepository.save(newUser);
+        try {
+            userRepository.save(newUser);
+        } catch (DataIntegrityViolationException e) {
+            throw new SignUpException("Can't sign up user: ", e);
+        }
     }
 
     @Override

@@ -7,13 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 @JsonPropertyOrder({
         "id",
         "name"
 })
-@JsonIgnoreProperties(value = "id", allowSetters = false, allowGetters = true, ignoreUnknown = true)
+@JsonIgnoreProperties(value = "id", allowGetters = true, ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
