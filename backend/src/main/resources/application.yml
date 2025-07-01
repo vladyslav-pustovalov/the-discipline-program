@@ -16,7 +16,3 @@ spring:
   sql:
     init:
       mode: never
-security:
-  jwt:
-    token:
-      secret-key: ${JWT_SECRET}
