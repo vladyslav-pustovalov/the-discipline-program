@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
         "id",
         "name"
 })
-@JsonIgnoreProperties(value = "id", allowGetters = true, ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
