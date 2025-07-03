@@ -43,6 +43,7 @@ public class ProgramController {
 
     @PostMapping
     public ResponseEntity<GeneralProgramDTO> createProgram(@RequestBody GeneralProgramDTO programDTO) {
+        log.info("Creating program: {}", programDTO);
         return ResponseEntity.ok(programService.createProgram(programDTO));
     }
 
