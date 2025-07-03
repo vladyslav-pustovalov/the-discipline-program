@@ -18,6 +18,7 @@ jobs:
       TDP_DB_SCHEMA: ${{ secrets.TDP_DB_SCHEMA }}
       TDP_DB_USER: ${{ secrets.TDP_DB_USER }}
       TDP_DB_PASS: ${{ secrets.TDP_DB_PASS }}
+      JWT_SECRET: ${{JWT_SECRET}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
