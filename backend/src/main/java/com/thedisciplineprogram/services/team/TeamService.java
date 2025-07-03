@@ -1,10 +1,10 @@
 package com.thedisciplineprogram.services.team;
 
-import com.thedisciplineprogram.models.entities.Team;
+import com.thedisciplineprogram.models.dtos.TeamDTO;
 
 public interface TeamService {
-    Team getTeamById(Long id);
-    Team createTeam(Team team);
-    Team updateTeam(Long id, Team team);
+    TeamDTO getTeamById(Long id);
+    TeamDTO createTeam(TeamDTO teamDTO);
+    TeamDTO updateTeam(Long id, TeamDTO teamDTO);
     void deleteTeamById(Long id);
 }
