@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     public UserRequestDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        log.info("User: {}", user);
         return userRequestMapper.toDTO(user);
     }
 
@@ -52,13 +53,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRequestDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
+        log.info("User old id: {}", id);
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        log.info("User old: {}", oldUser);
         User user = userRequestMapper.toEntity(userRequestDTO);
         user.setPassword(oldUser.getPassword());
-        User saved = userRepository.save(user);
+        user.setTrainingLevel(oldUser.getTrainingLevel());
 
         try {
+            User saved = userRepository.save(user);
             return userRequestMapper.toDTO(saved);
         } catch (DataIntegrityViolationException e) {
             throw new UserUpdateException("Failed to update user", e);
@@ -67,6 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changeUserPassword(ChangePasswordDTO changePasswordDTO) {
+        log.info("Change password dto: {}", changePasswordDTO);
         User existingUser = userRepository.findById(changePasswordDTO.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + changePasswordDTO.getUserId()));
 
