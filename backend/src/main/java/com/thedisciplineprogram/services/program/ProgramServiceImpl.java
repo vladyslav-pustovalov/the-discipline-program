@@ -24,7 +24,11 @@ public class ProgramServiceImpl implements ProgramService {
     private final UserRepository userRepository;
 
     @Autowired
-    public ProgramServiceImpl(GeneralProgramMapper generalProgramMapper, GeneralProgramRepository programRepository, UserRepository userRepository) {
+    public ProgramServiceImpl(
+            GeneralProgramMapper generalProgramMapper,
+            GeneralProgramRepository programRepository,
+            UserRepository userRepository
+    ) {
         this.generalProgramMapper = generalProgramMapper;
         this.programRepository = programRepository;
         this.userRepository = userRepository;
@@ -41,15 +45,20 @@ public class ProgramServiceImpl implements ProgramService {
     public GeneralProgramDTO getProgramDTOByUserIdAndDate(Long userId, LocalDate scheduledDate) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-        GeneralProgram entity = programRepository.findByTrainingLevelIdAndDate(user.getTrainingLevel().getId(), scheduledDate);
+        GeneralProgram entity = programRepository.findByTrainingLevelIdAndDate(
+                user.getTrainingLevel().getId(),
+                scheduledDate
+        );
         return generalProgramMapper.toDTO(entity);
     }
 
     @Override
     public GeneralProgramDTO createProgram(GeneralProgramDTO programDTO) {
         GeneralProgram entity = generalProgramMapper.toEntity(programDTO);
-        GeneralProgram saved = programRepository.save(entity);
+        if (entity.getId() != null) entity.setId(null);
+
         try {
+            GeneralProgram saved = programRepository.save(entity);
             return generalProgramMapper.toDTO(saved);
         } catch (DataIntegrityViolationException e) {
             throw new ProgramSaveException("Failed to save program", e);
