@@ -42,10 +42,11 @@ public class User implements UserDetails {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public User(String username, String password, UserRole userRole) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.userRole = userRole;
+        this.userRole = new UserRole(1L, "USER");
+        this.trainingLevel = new TrainingLevel(1L, "Amateur");
     }
 
     @Override
