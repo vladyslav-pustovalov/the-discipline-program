@@ -3,12 +3,13 @@ package com.thedisciplineprogram.services.auth;
 import com.thedisciplineprogram.configurations.auth.TokenProvider;
 import com.thedisciplineprogram.exceptions.auth.SignUpException;
 import com.thedisciplineprogram.exceptions.user.UserAlreadyExistsException;
+import com.thedisciplineprogram.models.dtos.UserRoleDTO;
 import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
 import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
 import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import com.thedisciplineprogram.models.entities.User;
-import com.thedisciplineprogram.models.entities.UserRole;
 import com.thedisciplineprogram.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService, UserDetailsService {
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
@@ -45,7 +47,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             throw new UserAlreadyExistsException("Username already exists");
         }
         String encryptedPassword = passwordEncoder.encode(data.getPassword());
-        User newUser = new User(data.getUsername(), encryptedPassword, new UserRole(1L, "USER"));
+        User newUser = new User(data.getUsername(), encryptedPassword);
 
         try {
             userRepository.save(newUser);
@@ -60,6 +62,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         var auth = authenticationManager.authenticate(usernamePassword);
         var user = (User) auth.getPrincipal();
         var accessToken = tokenProvider.generateAccessToken(user);
-        return new JwtDTO(user.getId(), accessToken);
+        var role = new UserRoleDTO(user.getUserRole().getId(), user.getUserRole().getName());
+        return new JwtDTO(
+                user.getId(),
+                accessToken,
+                role
+        );
     }
 }
