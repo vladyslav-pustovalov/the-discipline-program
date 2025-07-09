@@ -1,9 +1,6 @@
 package com.thedisciplineprogram.services.program;
 
-import com.thedisciplineprogram.exceptions.program.ProgramDeleteException;
-import com.thedisciplineprogram.exceptions.program.ProgramNotFoundException;
-import com.thedisciplineprogram.exceptions.program.ProgramSaveException;
-import com.thedisciplineprogram.exceptions.program.ProgramUpdateException;
+import com.thedisciplineprogram.exceptions.program.*;
 import com.thedisciplineprogram.exceptions.user.UserNotFoundException;
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.models.entities.User;
@@ -11,6 +8,7 @@ import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
 import com.thedisciplineprogram.repositories.UserRepository;
 import com.thedisciplineprogram.repositories.programs.GeneralProgramRepository;
 import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
+@Slf4j
 public class ProgramServiceImpl implements ProgramService {
     private final GeneralProgramMapper generalProgramMapper;
     private final GeneralProgramRepository programRepository;
@@ -55,12 +54,24 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public GeneralProgramDTO createProgram(GeneralProgramDTO programDTO) {
         GeneralProgram entity = generalProgramMapper.toEntity(programDTO);
+        GeneralProgram existingEntity = programRepository.findByTrainingLevelIdAndDate(
+                entity.getTrainingLevel().getId(),
+                entity.getScheduledDate()
+        );
+
+        if(existingEntity != null
+        ) {
+            log.info("Program exists");
+            throw new ProgramAlreadyExistException("Program for this level for this date already exists",  existingEntity.getId());
+        }
+
         if (entity.getId() != null) entity.setId(null);
 
         try {
             GeneralProgram saved = programRepository.save(entity);
             return generalProgramMapper.toDTO(saved);
         } catch (DataIntegrityViolationException e) {
+            log.error(e.getMessage());
             throw new ProgramSaveException("Failed to save program", e);
         }
     }
