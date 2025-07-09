@@ -17,11 +17,10 @@ import java.time.LocalDate;
         "isRestDay",
         "dailyProgram"
 })
-@JsonIgnoreProperties(value = "id", allowGetters = true, ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//TODO: change dtos and entities to use Lombok
 public class GeneralProgramDTO {
     @JsonProperty("id")
     private Long id;
