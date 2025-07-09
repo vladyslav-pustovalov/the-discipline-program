@@ -49,6 +49,7 @@ public class ProgramController {
 
     @PutMapping
     public ResponseEntity<GeneralProgramDTO> updateProgram(@RequestBody GeneralProgramDTO programDTO) {
+        log.info("Updating program with id: {}", programDTO.getId());
         return ResponseEntity.ok(programService.updateProgram(programDTO.getId(), programDTO));
     }
 
