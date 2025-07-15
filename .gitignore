@@ -3,3 +3,5 @@
 *.iml
 *.ipr
 qodana.yaml
+
+.env
