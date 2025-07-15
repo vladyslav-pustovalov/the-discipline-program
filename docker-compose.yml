@@ -13,6 +13,8 @@ services:
       - ${TDP_DB_PORT}:$TDP_DB_PORT
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - web
 
   backend:
     depends_on:
