@@ -1,7 +1,7 @@
 package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
-import com.thedisciplineprogram.services.TrainingLevel.TrainingLevelService;
+import com.thedisciplineprogram.services.traininglevel.TrainingLevelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

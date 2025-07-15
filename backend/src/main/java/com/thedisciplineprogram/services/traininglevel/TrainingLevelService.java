@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.services.TrainingLevel;
+package com.thedisciplineprogram.services.traininglevel;
 
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 
