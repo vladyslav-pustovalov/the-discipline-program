@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: $TDP_DB_SCHEMA
     ports:
       - ${TDP_DB_PORT}:$TDP_DB_PORT
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
   backend:
     depends_on:
@@ -30,12 +32,15 @@ services:
       TDP_DB_SCHEMA: $TDP_DB_SCHEMA
       JWT_SECRET: $JWT_SECRET
 
-  frontend:
-    depends_on:
-      - backend
-    container_name: tdp_frontend_container
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"
+#  frontend:
+#    depends_on:
+#      - backend
+#    container_name: tdp_frontend_container
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    ports:
+#      - "3000:80"
+
+volumes:
+  db_data:
