@@ -62,17 +62,10 @@ CREATE TABLE individual_programs (
     )
 );
 
-
-
 INSERT INTO training_levels (id, name) VALUES
-    (1, 'Amateur'),
-    (2, 'RX'),
-    (3, 'Elite');
+    (1, 'Scaled'),
+    (2, 'Pro'),
 
 INSERT INTO user_roles (id, name) VALUES
     (1, 'USER'),
     (3, 'ADMIN');
-
-INSERT INTO teams (id, name) VALUES
-    (1, 'Team Alpha'),
-    (2, 'Team Beta');
