@@ -32,6 +32,21 @@ services:
       TDP_DB_SCHEMA: $TDP_DB_SCHEMA
       JWT_SECRET: $JWT_SECRET
 
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+    networks:
+      - web
+
 #  frontend:
 #    depends_on:
 #      - backend
@@ -44,3 +59,9 @@ services:
 
 volumes:
   db_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    driver: bridge
