@@ -64,7 +64,7 @@ CREATE TABLE individual_programs (
 
 INSERT INTO training_levels (id, name) VALUES
     (1, 'Scaled'),
-    (2, 'Pro'),
+    (2, 'Pro');
 
 INSERT INTO user_roles (id, name) VALUES
     (1, 'USER'),
