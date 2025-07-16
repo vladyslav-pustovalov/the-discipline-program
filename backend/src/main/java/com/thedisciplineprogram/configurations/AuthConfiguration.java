@@ -33,6 +33,7 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user/changePassword").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/trainingLevel/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/program").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/program").hasRole("ADMIN")
