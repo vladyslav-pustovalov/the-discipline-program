@@ -26,7 +26,7 @@ services:
     expose:
       - "8080"
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       TDP_DB_HOST: db_container
       TDP_DB_PORT: $TDP_DB_PORT
       TDP_DB_USER: $TDP_DB_USER
