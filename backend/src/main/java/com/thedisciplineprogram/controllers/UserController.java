@@ -34,14 +34,13 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<UserRequestDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
-        log.info("user update {}", userRequestDTO);
+        log.info("user update {}", userRequestDTO.getId());
         UserRequestDTO result = userService.updateUser(userRequestDTO.getId(), userRequestDTO);
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/changePassword")
     public ResponseEntity<Void> changeUserPassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
-        log.info("Change password dto: {}", changePasswordDTO);
         userService.changeUserPassword(changePasswordDTO);
         return ResponseEntity.ok().build();
     }
