@@ -27,7 +27,7 @@ public class ProgramController {
     }
 
     @GetMapping
-    public ResponseEntity<GeneralProgramDTO> getProgramById(
+    public ResponseEntity<GeneralProgramDTO> getProgramByUserIdAndScheduledDate(
             @RequestParam(value = "userId") Long userId,
             @RequestParam(value = "scheduledDate") LocalDate scheduledDate
             ) {
