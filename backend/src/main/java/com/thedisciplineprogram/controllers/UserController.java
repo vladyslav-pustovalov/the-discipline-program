@@ -4,6 +4,7 @@ import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.services.user.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +22,27 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     public ResponseEntity<UserRequestDTO> getUserById(@PathVariable Long id) {
         UserRequestDTO result = userService.getUserById(id);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO result = userService.createUser(userDTO);
         return ResponseEntity.ok(result);
     }
 
     @PutMapping
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     public ResponseEntity<UserRequestDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
         log.info("user update {}", userRequestDTO.getId());
         UserRequestDTO result = userService.updateUser(userRequestDTO.getId(), userRequestDTO);
@@ -46,6 +56,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
