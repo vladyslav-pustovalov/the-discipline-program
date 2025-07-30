@@ -2,6 +2,9 @@ package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.services.program.ProgramService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,10 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/api/v1/program")
 @Slf4j
+@Tag(name = "Program")
+@SecurityRequirement(
+        name = "bearerAuth"
+)
 public class ProgramController {
     private final ProgramService programService;
 
