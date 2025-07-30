@@ -10,10 +10,10 @@ thedisciplineprogram.com {
     }
 
     handle /swagger-ui/* {
-        reverse_proxy localhost:8080
+        reverse_proxy backend:8080
     }
 
     handle /v3/api-docs {
-        reverse_proxy localhost:8080
+        reverse_proxy backend:8080
     }
 }
