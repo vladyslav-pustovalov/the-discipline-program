@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.utils.Validators;
+package com.thedisciplineprogram.utils.validators;
 
 import org.junit.jupiter.api.Test;
 
