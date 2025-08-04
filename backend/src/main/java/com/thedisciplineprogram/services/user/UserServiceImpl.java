@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.services.user;
 
+import com.thedisciplineprogram.exceptions.auth.InvalidPasswordException;
 import com.thedisciplineprogram.exceptions.user.*;
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.thedisciplineprogram.utils.validators.PasswordValidator.isValidPassword;
 
 @Service
 @Slf4j
@@ -57,6 +60,7 @@ public class UserServiceImpl implements UserService {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         log.info("User old: {}", oldUser);
+
         User user = userRequestMapper.toEntity(userRequestDTO);
         user.setPassword(oldUser.getPassword());
         user.setTrainingLevel(oldUser.getTrainingLevel());
@@ -72,6 +76,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeUserPassword(ChangePasswordDTO changePasswordDTO) {
         log.info("Change password dto: {}", changePasswordDTO);
+
+        if (isValidPassword(changePasswordDTO.getNewPassword())) {
+            throw new InvalidPasswordException("New password is invalid");
+        }
+
         User existingUser = userRepository.findById(changePasswordDTO.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + changePasswordDTO.getUserId()));
 

@@ -1,0 +1,33 @@
+name: Run Unit Tests
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Run unit tests
+        env:
+          JWT_SECRET: 12345678
+        run: mvn --batch-mode --no-transfer-progress test
+        working-directory: backend
