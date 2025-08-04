@@ -27,5 +27,11 @@ jobs:
             ${{ runner.os }}-maven
 
       - name: Run unit tests
+        env:
+          TDP_DB_USER: test
+          TDP_DB_PASS: test
+          TDP_DB_SCHEMA: test
+          TDP_DB_PORT: 5432
+          TDP_DB_HOST: localhost
         run: mvn --batch-mode --no-transfer-progress test
         working-directory: backend
