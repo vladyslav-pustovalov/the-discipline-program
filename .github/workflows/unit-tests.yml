@@ -33,5 +33,6 @@ jobs:
           TDP_DB_SCHEMA: test
           TDP_DB_PORT: 5432
           TDP_DB_HOST: localhost
+          JWT_SECRET: 12345678
         run: mvn --batch-mode --no-transfer-progress test
         working-directory: backend
