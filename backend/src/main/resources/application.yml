@@ -9,3 +9,9 @@ spring:
   sql:
     init:
       mode: never
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
