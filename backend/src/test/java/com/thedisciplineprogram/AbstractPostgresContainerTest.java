@@ -9,9 +9,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 public abstract class AbstractPostgresContainerTest {
 
+    @SuppressWarnings("resource")
     @Container
     protected static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("testdb")
+            .withDatabaseName("test")
             .withUsername("test")
             .withPassword("test")
             .withInitScript("schema.sql");

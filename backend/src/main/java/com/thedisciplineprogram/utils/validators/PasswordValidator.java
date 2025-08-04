@@ -1,11 +1,11 @@
-package com.thedisciplineprogram.utils;
+package com.thedisciplineprogram.utils.validators;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Validators {
+public class PasswordValidator {
 
-    private Validators() {}
+    private PasswordValidator() {}
 
     public static boolean isValidPassword(String password) {
 

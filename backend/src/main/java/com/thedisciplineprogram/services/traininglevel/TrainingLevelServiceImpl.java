@@ -29,9 +29,7 @@ public class TrainingLevelServiceImpl implements TrainingLevelService {
         List<TrainingLevel> trainingLevels = trainingLevelRepository.findAll();
         log.info("Found {}", trainingLevels);
         List<TrainingLevelDTO> result = new ArrayList<>();
-        trainingLevels.forEach(trainingLevel -> {
-            result.add(trainingLevelMapper.toDTO(trainingLevel));
-        });
+        trainingLevels.forEach(trainingLevel -> result.add(trainingLevelMapper.toDTO(trainingLevel)));
         log.info("Mapped {}", result);
         return result;
     }

@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.thedisciplineprogram.utils.Validators.isValidPassword;
+import static com.thedisciplineprogram.utils.validators.PasswordValidator.isValidPassword;
 
 @Service
 @Slf4j

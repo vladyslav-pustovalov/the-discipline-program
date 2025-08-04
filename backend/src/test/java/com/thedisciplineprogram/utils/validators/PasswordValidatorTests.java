@@ -5,13 +5,15 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.thedisciplineprogram.utils.Validators.isValidPassword;
+import static com.thedisciplineprogram.utils.validators.PasswordValidator.isValidPassword;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PasswordValidatorTests {
-    List<String> disallowedCharacters = List.of("\"", "'", "`", "\\", "/", "<", ">", "{", "}", "[", "]", "(", ")", ";");
-    List<String> allowedCharacters = List.of("!" ,"@", "#", "$", "%", "^", "&", "*", "-", "_", "=", "+", "|", ",", ".", "?");
+    private final List<String> disallowedCharacters = List
+            .of("\"", "'", "`", "\\", "/", "<", ">", "{", "}", "[", "]", "(", ")", ";");
+    private final List<String> allowedCharacters = List
+            .of("!" ,"@", "#", "$", "%", "^", "&", "*", "-", "_", "=", "+", "|", ",", ".", "?");
 
     @Test
     void testValidPasswordIsAccepted() {
