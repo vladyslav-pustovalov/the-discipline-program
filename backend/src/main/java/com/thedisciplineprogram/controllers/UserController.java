@@ -1,6 +1,7 @@
 package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
+import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.services.user.UserService;
@@ -52,6 +53,12 @@ public class UserController {
     @PatchMapping("/changePassword")
     public ResponseEntity<Void> changeUserPassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         userService.changeUserPassword(changePasswordDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/changeTrainingLevel")
+    public ResponseEntity<Void> changeTrainingLevel(@PathVariable Long id, @RequestBody TrainingLevelDTO trainingLevelDTO) {
+        userService.changeTrainingLevel(id, trainingLevelDTO);
         return ResponseEntity.ok().build();
     }
 
