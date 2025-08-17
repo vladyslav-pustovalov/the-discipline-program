@@ -1,12 +1,19 @@
 package com.thedisciplineprogram.services.user;
 
 import com.thedisciplineprogram.exceptions.auth.InvalidPasswordException;
+import com.thedisciplineprogram.exceptions.trainingLevel.IncorrectTrainingLevelException;
+import com.thedisciplineprogram.exceptions.trainingLevel.TrainingLevelNotFoundException;
+import com.thedisciplineprogram.exceptions.trainingLevel.TrainingLevelUpdateException;
 import com.thedisciplineprogram.exceptions.user.*;
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
+import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
+import com.thedisciplineprogram.models.entities.TrainingLevel;
 import com.thedisciplineprogram.models.entities.User;
+import com.thedisciplineprogram.repositories.TrainingLevelRepository;
 import com.thedisciplineprogram.repositories.UserRepository;
+import com.thedisciplineprogram.utils.mappers.TrainingLevelMapper;
 import com.thedisciplineprogram.utils.mappers.UserMapper;
 import com.thedisciplineprogram.utils.mappers.UserRequestMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +30,24 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRequestMapper userRequestMapper;
     private final UserRepository userRepository;
+    private final TrainingLevelRepository trainingLevelRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TrainingLevelMapper trainingLevelMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper, UserRequestMapper userRequestMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(
+            UserMapper userMapper,
+            UserRequestMapper userRequestMapper,
+            UserRepository userRepository,
+            TrainingLevelRepository trainingLevelRepository,
+            PasswordEncoder passwordEncoder,
+            TrainingLevelMapper trainingLevelMapper) {
         this.userMapper = userMapper;
         this.userRequestMapper = userRequestMapper;
         this.userRepository = userRepository;
+        this.trainingLevelRepository = trainingLevelRepository;
         this.passwordEncoder = passwordEncoder;
+        this.trainingLevelMapper = trainingLevelMapper;
     }
 
     @Override
@@ -102,6 +119,26 @@ public class UserServiceImpl implements UserService {
         } else {
             log.info("incorrect user's old password");
             throw new IncorrectUserPasswordException("Incorrect user's old password");
+        }
+    }
+
+    @Override
+    public void changeTrainingLevel(Long id, TrainingLevelDTO trainingLevelDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+
+        TrainingLevel trainingLevel = trainingLevelRepository.findById(trainingLevelDTO.getId())
+                .orElseThrow(() -> new TrainingLevelNotFoundException("TrainingLevel not found with id: " + trainingLevelDTO.getId()));
+
+        if (trainingLevel.equals(trainingLevelMapper.toEntity(trainingLevelDTO))) {
+            try {
+                existingUser.setTrainingLevel(trainingLevel);
+                userRepository.save(existingUser);
+            } catch (DataIntegrityViolationException e) {
+                throw new TrainingLevelUpdateException("Failed to update trainingLevel", e);
+            }
+        } else {
+            throw new IncorrectTrainingLevelException("Incorrect training level name or id was provided");
         }
     }
 
