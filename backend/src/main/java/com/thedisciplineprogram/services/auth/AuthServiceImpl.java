@@ -1,7 +1,6 @@
 package com.thedisciplineprogram.services.auth;
 
 import com.thedisciplineprogram.configurations.auth.TokenProvider;
-import com.thedisciplineprogram.exceptions.auth.InvalidPasswordException;
 import com.thedisciplineprogram.exceptions.auth.SignUpException;
 import com.thedisciplineprogram.exceptions.user.UserAlreadyExistsException;
 import com.thedisciplineprogram.models.dtos.UserRoleDTO;
@@ -20,8 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static com.thedisciplineprogram.utils.validators.PasswordValidator.isValidPassword;
 
 @Service
 @Slf4j
@@ -46,10 +43,8 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public void signUp(SignUpDTO data) throws UserAlreadyExistsException {
-
-        if (!isValidPassword(data.getPassword())) {
-            throw new InvalidPasswordException("User password is invalid");
-        }
+        /// Normalizing email
+        data.setUsername(data.getUsername().toLowerCase());
 
         if (userRepository.findByUsername(data.getUsername()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
@@ -67,6 +62,9 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public JwtDTO signIn(SignInDTO data) {
+        /// Normalizing email
+        data.setUsername(data.getUsername().toLowerCase());
+
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
         var user = (User) auth.getPrincipal();

@@ -6,6 +6,7 @@ import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     @PatchMapping("/changePassword")
-    public ResponseEntity<Void> changeUserPassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+    public ResponseEntity<Void> changeUserPassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
         userService.changeUserPassword(changePasswordDTO);
         return ResponseEntity.ok().build();
     }
