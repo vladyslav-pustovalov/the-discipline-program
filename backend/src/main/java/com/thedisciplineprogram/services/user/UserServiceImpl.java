@@ -92,7 +92,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changeUserPassword(ChangePasswordDTO changePasswordDTO) {
-        log.info("Change password dto: {}", changePasswordDTO);
 
         if (isValidPassword(changePasswordDTO.getNewPassword())) {
             throw new InvalidPasswordException("New password is invalid");
