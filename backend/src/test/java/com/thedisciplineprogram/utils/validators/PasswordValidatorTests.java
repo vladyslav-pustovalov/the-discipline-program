@@ -1,56 +1,63 @@
 package com.thedisciplineprogram.utils.validators;
 
+import jakarta.validation.ConstraintValidatorContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static com.thedisciplineprogram.utils.validators.PasswordValidator.isValidPassword;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class PasswordValidatorTests {
-    private final List<String> disallowedCharacters = List
-            .of("\"", "'", "`", "\\", "/", "<", ">", "{", "}", "[", "]", "(", ")", ";");
-    private final List<String> allowedCharacters = List
-            .of("!" ,"@", "#", "$", "%", "^", "&", "*", "-", "_", "=", "+", "|", ",", ".", "?");
+    private PasswordValidator passwordValidator;
+    private ConstraintValidatorContext validatorContext;
 
-    @Test
-    void testValidPasswordIsAccepted() {
-        String randomAllowedChar = allowedCharacters.get(ThreadLocalRandom.current().nextInt(allowedCharacters.size()));
-        String validPassword = "Test123" + randomAllowedChar;
-        assertTrue(isValidPassword(validPassword), "Valid password \"" + validPassword + "\" should be accepted");
+    @BeforeEach
+    public void setUp() {
+        passwordValidator = new PasswordValidator();
+        validatorContext = mock(ConstraintValidatorContext.class);
+        ConstraintValidatorContext.ConstraintViolationBuilder builder = mock(ConstraintValidatorContext.ConstraintViolationBuilder.class);
+        when(validatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
+        when(builder.addConstraintViolation()).thenReturn(validatorContext);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!" ,"@", "#", "$", "%", "^", "&", "*", "-", "_", "=", "+", "|", ",", ".", "?"})
+    void testValidPasswordIsAccepted(String allowedCharacter) {
+        String validPassword = "Test123" + allowedCharacter;
+        assertTrue(passwordValidator.isValid(validPassword, validatorContext), "Valid password \"" + validPassword + "\" should be accepted");
     }
 
     @Test
     void testShortPasswordIsNotAccepted() {
-        assertFalse(isValidPassword("Te12!"), "Short password should not be accepted");
+        assertFalse(passwordValidator.isValid("Te12!", validatorContext), "Short password should not be accepted");
     }
 
     @Test
     void testLongPasswordIsNotAccepted() {
-        assertFalse(isValidPassword("Test1234567891234567891234567891!"), "Long password should not be accepted");
+        assertFalse(passwordValidator.isValid("Test1234567891234567891234567891!", validatorContext), "Long password should not be accepted");
     }
 
     @Test
     void testPasswordWithoutUppercaseIsNotAccepted() {
-        assertFalse(isValidPassword("test123!"), "Password without uppercase should not be accepted");
+        assertFalse(passwordValidator.isValid("test123!", validatorContext), "Password without uppercase should not be accepted");
     }
 
     @Test
     void testPasswordWithoutLowercaseIsNotAccepted() {
-        assertFalse(isValidPassword("TEST123!"), "Password without lower case should not be accepted");
+        assertFalse(passwordValidator.isValid("TEST123!", validatorContext), "Password without lower case should not be accepted");
     }
 
     @Test
     void testPasswordWithoutSpecialCharactersIsNotAccepted() {
-        assertFalse(isValidPassword("Test123"), "Password without special characters should not be accepted");
+        assertFalse(passwordValidator.isValid("Test123", validatorContext), "Password without special characters should not be accepted");
     }
 
-    @Test
-    void testWithDisallowedCharacterIsNotAccepted() {
-        String randomDisallowedChar = disallowedCharacters.get(ThreadLocalRandom.current().nextInt(disallowedCharacters.size()));
-        String inValidCharacterPassword = "Test123" + randomDisallowedChar;
-        assertFalse(isValidPassword(inValidCharacterPassword), "Password with invalid character \"" + inValidCharacterPassword + "\" should not be accepted");
+    @ParameterizedTest
+    @ValueSource(strings = {"\"", "'", "`", "\\", "/", "<", ">", "{", "}", "[", "]", "(", ")", ";"})
+    void testWithDisallowedCharacterIsNotAccepted(String disallowedCharacter) {
+        String inValidCharacterPassword = "Test123" + disallowedCharacter;
+        assertFalse(passwordValidator.isValid(inValidCharacterPassword, validatorContext), "Password with invalid character \"" + inValidCharacterPassword + "\" should not be accepted");
     }
 }

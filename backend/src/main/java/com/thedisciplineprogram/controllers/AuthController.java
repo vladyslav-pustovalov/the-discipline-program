@@ -4,6 +4,7 @@ import com.thedisciplineprogram.models.dtos.auth.JwtDTO;
 import com.thedisciplineprogram.models.dtos.auth.SignInDTO;
 import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import com.thedisciplineprogram.services.auth.AuthService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpDTO data) {
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpDTO data) {
         authService.signUp(data);
         log.info("User is registered");
         return ResponseEntity.status(HttpStatus.CREATED).build();

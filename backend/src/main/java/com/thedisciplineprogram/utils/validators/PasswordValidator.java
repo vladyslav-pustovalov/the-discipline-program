@@ -1,41 +1,56 @@
 package com.thedisciplineprogram.utils.validators;
 
-import lombok.extern.slf4j.Slf4j;
+import com.thedisciplineprogram.utils.annotations.ValidPassword;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-@Slf4j
-public class PasswordValidator {
+import java.util.ArrayList;
+import java.util.List;
 
-    private PasswordValidator() {}
+public class PasswordValidator implements ConstraintValidator<ValidPassword, String> {
 
-    public static boolean isValidPassword(String password) {
+    @Override
+    public boolean isValid(String password, ConstraintValidatorContext context) {
+        if (password == null) {
+            return false;
+        }
+
+        List<String> errors = new ArrayList<>();
 
         if (password.length() < 6 || password.length() > 32) {
-            log.error("Password length should be between 6 and 32");
-            return false;
+            errors.add("Password must be between 6 and 32 characters");
         }
 
-        if (password.matches(".*[\"'`\\\\/<>{}\\[\\]();].*")) {
-            log.error("Password contains disallowed symbols");
-            return false;
+        if (password.matches(".*[\"'`\\\\/<>{}\\[\\]();:].*")) {
+            errors.add("Password must not contain disallowed symbols");
         }
 
-        if (!password.matches(".*[A-Z].*")) {
-            log.error("Password does NOT contain an Uppercase letter");
-            return false;
+        if (!password.matches(".*[0-9].*")) {
+            errors.add("Password must contain at least one digit");
         }
 
         if (!password.matches(".*[a-z].*")) {
-            log.error("Password does NOT contain a Lowercase letter");
-            return false;
+            errors.add("Password must contain at least one lowercase letter");
         }
 
-        if (!password.matches(".*\\d.*")) {
-            log.error("Password does NOT contain a digit");
-            return false;
+        if (!password.matches(".*[A-Z].*")) {
+            errors.add("Password must contain at least one uppercase letter");
         }
 
-        if (!password.matches(".*[!@#$%^&*\\-_=+|;:'\",.?/\\\\].*")) {
-            log.error("Password does NOT contain a symbol");
+        if (!password.matches(".*[@#$%^&+=!_.|?*\\-,].*")) {
+            errors.add("Password must contain at least one special character (@#$%^&+=!)");
+        }
+
+        if (password.matches(".*\\s.*")) {
+            errors.add("Password must not contain whitespace");
+        }
+
+        if (!errors.isEmpty()) {
+            context.disableDefaultConstraintViolation();
+            for (String error : errors) {
+                context.buildConstraintViolationWithTemplate(error)
+                        .addConstraintViolation();
+            }
             return false;
         }
 
