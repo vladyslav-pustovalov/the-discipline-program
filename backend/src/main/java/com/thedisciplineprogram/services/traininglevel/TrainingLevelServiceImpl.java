@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.services.traininglevel;
 
+import com.thedisciplineprogram.exceptions.trainingLevel.TrainingLevelNotFoundException;
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 import com.thedisciplineprogram.models.entities.TrainingLevel;
 import com.thedisciplineprogram.repositories.TrainingLevelRepository;
@@ -21,6 +22,13 @@ public class TrainingLevelServiceImpl implements TrainingLevelService {
     public TrainingLevelServiceImpl(TrainingLevelRepository trainingLevelRepository,  TrainingLevelMapper trainingLevelMapper) {
         this.trainingLevelRepository = trainingLevelRepository;
         this.trainingLevelMapper = trainingLevelMapper;
+    }
+
+    @Override
+    public TrainingLevelDTO getTrainingLevelById(long id) {
+        TrainingLevel trainingLevel = trainingLevelRepository.findById(id)
+                .orElseThrow(() -> new TrainingLevelNotFoundException("TrainingLevel not found with id: " + id));
+        return trainingLevelMapper.toDTO(trainingLevel);
     }
 
     @Override
