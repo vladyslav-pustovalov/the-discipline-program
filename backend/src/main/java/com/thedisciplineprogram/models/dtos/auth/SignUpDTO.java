@@ -1,5 +1,6 @@
 package com.thedisciplineprogram.models.dtos.auth;
 
+import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 import com.thedisciplineprogram.utils.annotations.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,4 +22,5 @@ public class SignUpDTO {
     String username;
     @ValidPassword
     String password;
+    TrainingLevelDTO trainingLevel;
 }
