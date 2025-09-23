@@ -1,8 +1,8 @@
-package com.thedisciplineprogram.utils.mappers;
+package com.thedisciplineprogram.utils.mappers.program;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thedisciplineprogram.models.dtos.program.DailyProgramDTO;
+import com.thedisciplineprogram.models.dtos.program.programdetails.DailyProgramDTO;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 

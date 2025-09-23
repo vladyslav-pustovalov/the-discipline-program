@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface GeneralProgramRepository extends JpaRepository<GeneralProgram, Long> {
     @Query(value = "SELECT * FROM general_programs WHERE training_level_id = :trainingLevelId AND scheduled_date = :scheduledDate", nativeQuery = true)
-    GeneralProgram findByTrainingLevelIdAndDate(@Param("trainingLevelId")Long trainingLevelId, @Param("scheduledDate") LocalDate scheduledDate);
+    Optional<GeneralProgram> findByTrainingLevelIdAndDate(@Param("trainingLevelId")Long trainingLevelId, @Param("scheduledDate") LocalDate scheduledDate);
 }

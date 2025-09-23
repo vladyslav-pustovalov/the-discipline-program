@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.utils.mappers;
+package com.thedisciplineprogram.utils.mappers.program;
 
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.models.entities.programs.GeneralProgram;

@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.models.dtos.program;
+package com.thedisciplineprogram.models.dtos.program.programdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
