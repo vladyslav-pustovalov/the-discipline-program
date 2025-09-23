@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - develop
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        default: 'develop'
+        required: true
 
 jobs:
   deploy:
@@ -12,6 +18,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch != '' && github.event.inputs.branch || github.ref }}
 
       - name: Copy code to VPS
         uses: appleboy/scp-action@v0.1.3
