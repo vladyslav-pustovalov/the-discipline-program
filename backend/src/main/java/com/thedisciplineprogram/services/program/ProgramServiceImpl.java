@@ -2,18 +2,20 @@ package com.thedisciplineprogram.services.program;
 
 import com.thedisciplineprogram.exceptions.program.*;
 import com.thedisciplineprogram.exceptions.user.UserNotFoundException;
+import com.thedisciplineprogram.models.dtos.program.BaseProgramDTO;
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.models.entities.programs.GeneralProgram;
 import com.thedisciplineprogram.repositories.UserRepository;
 import com.thedisciplineprogram.repositories.programs.GeneralProgramRepository;
-import com.thedisciplineprogram.utils.mappers.GeneralProgramMapper;
+import com.thedisciplineprogram.utils.mappers.program.GeneralProgramMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,16 +23,22 @@ public class ProgramServiceImpl implements ProgramService {
     private final GeneralProgramMapper generalProgramMapper;
     private final GeneralProgramRepository programRepository;
     private final UserRepository userRepository;
+    private final GeneralProgramService generalProgramService;
+    private final IndividualProgramService individualProgramService;
 
     @Autowired
     public ProgramServiceImpl(
             GeneralProgramMapper generalProgramMapper,
             GeneralProgramRepository programRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            GeneralProgramService generalProgramService,
+            IndividualProgramService individualProgramService
     ) {
         this.generalProgramMapper = generalProgramMapper;
         this.programRepository = programRepository;
         this.userRepository = userRepository;
+        this.generalProgramService = generalProgramService;
+        this.individualProgramService = individualProgramService;
     }
 
     @Override
@@ -41,28 +49,28 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public GeneralProgramDTO getProgramDTOByUserIdAndDate(Long userId, LocalDate scheduledDate) {
+    public BaseProgramDTO getProgramDTOByUserIdAndDate(Long userId, LocalDate scheduledDate) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-        GeneralProgram entity = programRepository.findByTrainingLevelIdAndDate(
-                user.getTrainingLevel().getId(),
-                scheduledDate
-        );
-        return generalProgramMapper.toDTO(entity);
+
+        if (user.getUserPlan().getId() == 2) {
+            return individualProgramService.getIndividualProgramDTOByUserIdAndDate(userId, scheduledDate);
+        } else {
+            return generalProgramService.getGeneralProgramDTOByTrainingLevelIdAndDate(user.getTrainingLevel().getId(), scheduledDate);
+        }
     }
 
     @Override
     public GeneralProgramDTO createProgram(GeneralProgramDTO programDTO) {
         GeneralProgram entity = generalProgramMapper.toEntity(programDTO);
-        GeneralProgram existingEntity = programRepository.findByTrainingLevelIdAndDate(
+        Optional<GeneralProgram> existingEntity = programRepository.findByTrainingLevelIdAndDate(
                 entity.getTrainingLevel().getId(),
                 entity.getScheduledDate()
         );
 
-        if(existingEntity != null
-        ) {
+        if(existingEntity.isPresent()) {
             log.info("Program exists");
-            throw new ProgramAlreadyExistException("Program for this level for this date already exists",  existingEntity.getId());
+            throw new ProgramAlreadyExistException("Program for this level for this date already exists",  existingEntity.get().getId());
         }
 
         if (entity.getId() != null) entity.setId(null);

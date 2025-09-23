@@ -1,18 +1,23 @@
-package com.thedisciplineprogram.models.dtos.program;
+package com.thedisciplineprogram.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+@JsonPropertyOrder({
+        "id",
+        "name"
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailyProgramDTO {
-    @JsonProperty("dayTrainings")
-    private List<DayTraining> dayTrainings;
+public class UserPlanDTO {
+    @JsonProperty("id")
+    private Long id;
+    @JsonProperty("name")
+    private String name;
 }

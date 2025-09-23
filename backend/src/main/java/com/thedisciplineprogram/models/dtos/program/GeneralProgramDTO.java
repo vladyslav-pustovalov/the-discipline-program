@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
+@EqualsAndHashCode(callSuper = true)
 @JsonPropertyOrder({
         "id",
         "scheduledDate",
@@ -21,15 +21,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GeneralProgramDTO {
-    @JsonProperty("id")
-    private Long id;
-    @JsonProperty("scheduledDate")
-    private LocalDate scheduledDate;
+public class GeneralProgramDTO extends BaseProgramDTO {
     @JsonProperty("trainingLevel")
     private TrainingLevelDTO trainingLevel;
-    @JsonProperty("isRestDay")
-    private Boolean isRestDay;
-    @JsonProperty("dailyProgram")
-    private DailyProgramDTO dailyProgram;
 }

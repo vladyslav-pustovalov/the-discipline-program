@@ -21,6 +21,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -53,6 +56,23 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         log.info("User: {}", user);
         return userRequestMapper.toDTO(user);
+    }
+
+    @Override
+    public List<UserRequestDTO> getAllUsers() {
+        log.info("Getting all users");
+        List<User> users = userRepository.findAll();
+        List<UserRequestDTO> result = new ArrayList<>();
+        users.forEach(user -> result.add(userRequestMapper.toDTO(user)));
+        log.info("Found {} users, mapped {} UserRequestDTOs", users.size() ,result.size());
+        return result;
+    }
+
+    @Override
+    public List<UserRequestDTO> getAllUsersByUserPlanId(Long userPlanId) {
+        log.info("Getting all users by userPlanId {}", userPlanId);
+        List<User> users = userRepository.findAllUsersByUserPlanId(userPlanId);
+        return users.stream().map(user -> userRequestMapper.toDTO(user)).toList();
     }
 
     @Override

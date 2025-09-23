@@ -1,5 +1,6 @@
-package com.thedisciplineprogram.controllers;
+package com.thedisciplineprogram.controllers.program;
 
+import com.thedisciplineprogram.models.dtos.program.BaseProgramDTO;
 import com.thedisciplineprogram.models.dtos.program.GeneralProgramDTO;
 import com.thedisciplineprogram.services.program.ProgramService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -33,18 +34,12 @@ public class ProgramController {
     }
 
     @GetMapping
-    public ResponseEntity<GeneralProgramDTO> getProgramByUserIdAndScheduledDate(
+    public ResponseEntity<BaseProgramDTO> getProgramByUserIdAndScheduledDate(
             @RequestParam(value = "userId") Long userId,
             @RequestParam(value = "scheduledDate") LocalDate scheduledDate
             ) {
-        GeneralProgramDTO result = programService.getProgramDTOByUserIdAndDate(userId, scheduledDate);
-        if (result == null) {
-            log.info("Program for user: {} for {} is not found",  userId, scheduledDate);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            log.info("Program: {}", result);
-            return ResponseEntity.ok(result);
-        }
+        BaseProgramDTO result = programService.getProgramDTOByUserIdAndDate(userId, scheduledDate);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping

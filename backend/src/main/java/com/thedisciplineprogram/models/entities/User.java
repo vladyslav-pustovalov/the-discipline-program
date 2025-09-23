@@ -38,6 +38,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "training_level_id")
     private TrainingLevel trainingLevel;
 
+    @ManyToOne
+    @JoinColumn(name = "user_plan_id", nullable = false)
+    private UserPlan userPlan;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
