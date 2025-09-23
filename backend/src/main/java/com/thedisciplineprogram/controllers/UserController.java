@@ -2,6 +2,7 @@ package com.thedisciplineprogram.controllers;
 
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
+import com.thedisciplineprogram.models.dtos.UserPlanDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.services.user.UserService;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+//TODO: refactor to /users
 @RestController
 @RequestMapping("/api/v1/user")
 @Slf4j
@@ -30,6 +34,16 @@ public class UserController {
     public ResponseEntity<UserRequestDTO> getUserById(@PathVariable Long id) {
         UserRequestDTO result = userService.getUserById(id);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<UserRequestDTO>> getUsers(@RequestParam(required = false) Long userPlanId) {
+        if (userPlanId == null) {
+            return ResponseEntity.ok(userService.getAllUsers());
+        } else {
+            return ResponseEntity.ok(userService.getAllUsersByUserPlanId(userPlanId));
+        }
     }
 
     @PostMapping
