@@ -35,6 +35,7 @@ public class AuthConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user/changePassword").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/trainingLevel/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/userPlans").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/v2/api-docs",
                                 "/v3/api-docs",
