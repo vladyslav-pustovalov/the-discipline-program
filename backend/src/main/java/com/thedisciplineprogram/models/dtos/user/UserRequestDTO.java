@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thedisciplineprogram.models.dtos.TeamDTO;
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
+import com.thedisciplineprogram.models.dtos.UserPlanDTO;
 import com.thedisciplineprogram.models.dtos.UserRoleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
         "username",
         "userRole",
         "trainingLevel",
+        "userPlan",
         "firstName",
         "lastName",
         "proneNumber",
@@ -36,6 +38,8 @@ public class UserRequestDTO {
     private UserRoleDTO userRole;
     @JsonProperty("trainingLevel")
     private TrainingLevelDTO trainingLevel;
+    @JsonProperty("userPlan")
+    private UserPlanDTO userPlan;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")
