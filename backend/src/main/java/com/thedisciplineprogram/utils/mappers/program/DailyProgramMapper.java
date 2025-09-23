@@ -3,28 +3,27 @@ package com.thedisciplineprogram.utils.mappers.program;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thedisciplineprogram.models.dtos.program.programdetails.DailyProgramDTO;
+import org.mapstruct.Mapper;
 import org.mapstruct.Named;
-import org.springframework.stereotype.Component;
 
-@Component
-public class DailyProgramMapper {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+@Mapper(componentModel = "spring")
+public interface DailyProgramMapper {
 
     @Named("stringToDailyProgram")
-    public DailyProgramDTO stringToDailyProgram(String json) {
+    default DailyProgramDTO stringToDailyProgram(String json) {
         if (json == null) return null;
         try {
-            return objectMapper.readValue(json, DailyProgramDTO.class);
+            return new ObjectMapper().readValue(json, DailyProgramDTO.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to parse JSON", e);
         }
     }
 
     @Named("dailyProgramToString")
-    public String dailyProgramToString(DailyProgramDTO dto) {
+    default String dailyProgramToString(DailyProgramDTO dto) {
         if (dto == null) return null;
         try {
-            return objectMapper.writeValueAsString(dto);
+            return new ObjectMapper().writeValueAsString(dto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to write JSON", e);
         }
