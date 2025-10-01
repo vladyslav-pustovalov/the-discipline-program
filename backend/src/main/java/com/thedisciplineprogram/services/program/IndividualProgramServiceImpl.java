@@ -1,8 +1,11 @@
 package com.thedisciplineprogram.services.program;
 
 import com.thedisciplineprogram.exceptions.program.*;
+import com.thedisciplineprogram.exceptions.user.UserNotFoundException;
+import com.thedisciplineprogram.exceptions.userPlan.IncorrectUserPlanException;
 import com.thedisciplineprogram.models.dtos.program.IndividualProgramDTO;
 import com.thedisciplineprogram.models.entities.programs.IndividualProgram;
+import com.thedisciplineprogram.repositories.UserRepository;
 import com.thedisciplineprogram.repositories.programs.IndividualProgramRepository;
 import com.thedisciplineprogram.utils.mappers.program.IndividualProgramMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +21,17 @@ import java.util.Optional;
 public class IndividualProgramServiceImpl implements IndividualProgramService {
     private final IndividualProgramMapper individualProgramMapper;
     private final IndividualProgramRepository individualProgramRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public IndividualProgramServiceImpl(
             IndividualProgramMapper individualProgramMapper,
-            IndividualProgramRepository individualProgramRepository
+            IndividualProgramRepository individualProgramRepository,
+            UserRepository userRepository
     ) {
         this.individualProgramMapper = individualProgramMapper;
         this.individualProgramRepository = individualProgramRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -55,6 +61,13 @@ public class IndividualProgramServiceImpl implements IndividualProgramService {
             throw new ProgramAlreadyExistException("Individual program for this user for this date already exists",  existingEntity.get().getId());
         }
 
+        var user = userRepository.findById(entity.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + entity.getUserId()));
+
+        if (user.getUserPlan().getId() != 2) {
+            throw new IncorrectUserPlanException("User with id: " + entity.getUserId() + " is not on an Individual plan");
+        }
+
         if (entity.getId() != null) entity.setId(null);
 
         try {
@@ -70,9 +83,9 @@ public class IndividualProgramServiceImpl implements IndividualProgramService {
     public IndividualProgramDTO updateIndividualProgram(Long id, IndividualProgramDTO individualProgramDTO) {
         IndividualProgram oldProgram = individualProgramRepository.findById(id)
                 .orElseThrow(() -> new ProgramNotFoundException("Not Found Individual program with id: " + id));
-        IndividualProgram updatedProgram = individualProgramRepository.save(individualProgramMapper.toEntity(individualProgramDTO));
 
         try {
+            IndividualProgram updatedProgram = individualProgramRepository.save(individualProgramMapper.toEntity(individualProgramDTO));
             return individualProgramMapper.toDTO(updatedProgram);
         } catch (DataIntegrityViolationException e) {
             throw new ProgramUpdateException("Failed to update Individual program", e);
