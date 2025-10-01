@@ -39,5 +39,5 @@ jobs:
           script: |
             cd /home/${{ secrets.VPS_USER }}/app
             docker compose down backend-dev
-            docker compose build backend-dev
+            docker compose build --no-cache backend-dev
             docker compose up -d backend-dev
