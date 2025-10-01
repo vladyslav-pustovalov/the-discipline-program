@@ -28,6 +28,7 @@ public class GeneralProgramController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GeneralProgramDTO> getGeneralProgramById(@PathVariable Long id) {
+        log.info("Getting general program with id {}", id);
         return ResponseEntity.ok(generalProgramService.getGeneralProgramDTOById(id));
     }
 
@@ -36,23 +37,25 @@ public class GeneralProgramController {
             @RequestParam(value = "trainingLevelId") Long trainingLevelId,
             @RequestParam(value = "scheduledDate") LocalDate scheduledDate
     ) {
+        log.info("Getting general program by training level id {}, and date: {}", trainingLevelId,  scheduledDate);
         return ResponseEntity.ok(generalProgramService.getGeneralProgramDTOByTrainingLevelIdAndDate(trainingLevelId, scheduledDate));
     }
 
     @PostMapping
     public ResponseEntity<GeneralProgramDTO> createGeneralProgram(@RequestBody GeneralProgramDTO generalProgramDTO) {
-        log.info("Creating program: {}", generalProgramDTO);
+        log.info("Creating general program: {}", generalProgramDTO);
         return ResponseEntity.ok(generalProgramService.createGeneralProgram(generalProgramDTO));
     }
 
     @PutMapping
     public ResponseEntity<GeneralProgramDTO> updateGeneralProgram(@RequestBody GeneralProgramDTO generalProgramDTO) {
-        log.info("Updating program with id: {}", generalProgramDTO.getId());
+        log.info("Updating general program with id: {}", generalProgramDTO.getId());
         return ResponseEntity.ok(generalProgramService.updateGeneralProgram(generalProgramDTO.getId(), generalProgramDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGeneralProgramById(@PathVariable Long id) {
+        log.info("Deleting general program with id: {}", id);
         generalProgramService.deleteGeneralProgramById(id);
         return ResponseEntity.noContent().build();
     }

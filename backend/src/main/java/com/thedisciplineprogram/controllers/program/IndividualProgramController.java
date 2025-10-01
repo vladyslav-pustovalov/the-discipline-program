@@ -29,6 +29,7 @@ public class IndividualProgramController {
 
     @GetMapping("/{id}")
     public ResponseEntity<IndividualProgramDTO> getProgramById(@PathVariable Long id) {
+        log.info("Getting individual program with id {}", id);
         return ResponseEntity.ok(individualProgramService.getIndividualProgramDTOById(id));
     }
 
@@ -37,23 +38,25 @@ public class IndividualProgramController {
             @RequestParam(value = "userId") Long userId,
             @RequestParam(value = "scheduledDate") LocalDate scheduledDate
     ) {
+        log.info("Getting individual program with id {} and scheduledDate {}", userId, scheduledDate);
         return ResponseEntity.ok(individualProgramService.getIndividualProgramDTOByUserIdAndDate(userId, scheduledDate));
     }
 
     @PostMapping
     public ResponseEntity<IndividualProgramDTO> createProgram(@RequestBody IndividualProgramDTO individualProgramDTO) {
-        log.info("Creating program: {}", individualProgramDTO);
+        log.info("Creating individual program: {}", individualProgramDTO);
         return ResponseEntity.ok(individualProgramService.createIndividualProgram(individualProgramDTO));
     }
 
     @PutMapping
     public ResponseEntity<IndividualProgramDTO> updateProgram(@RequestBody IndividualProgramDTO individualProgramDTO) {
-        log.info("Updating program with id: {}", individualProgramDTO.getId());
+        log.info("Updating individual program with id: {}", individualProgramDTO.getId());
         return ResponseEntity.ok(individualProgramService.updateIndividualProgram(individualProgramDTO.getId(), individualProgramDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProgramById(@PathVariable Long id) {
+        log.info("Deleting individual program with id {}", id);
         individualProgramService.deleteIndividualProgramById(id);
         return ResponseEntity.noContent().build();
     }
