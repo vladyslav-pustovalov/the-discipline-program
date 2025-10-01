@@ -77,6 +77,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("{id}/changeUserPlan")
+    public ResponseEntity<Void> changeUserPlan(@PathVariable Long id, @RequestBody UserPlanDTO userPlanDTO) {
+        userService.changeUserPlan(id, userPlanDTO);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     @SecurityRequirement(
             name = "bearerAuth"

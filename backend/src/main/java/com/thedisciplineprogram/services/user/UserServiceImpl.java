@@ -4,16 +4,23 @@ import com.thedisciplineprogram.exceptions.trainingLevel.IncorrectTrainingLevelE
 import com.thedisciplineprogram.exceptions.trainingLevel.TrainingLevelNotFoundException;
 import com.thedisciplineprogram.exceptions.trainingLevel.TrainingLevelUpdateException;
 import com.thedisciplineprogram.exceptions.user.*;
+import com.thedisciplineprogram.exceptions.userPlan.IncorrectUserPlanException;
+import com.thedisciplineprogram.exceptions.userPlan.UserPlanNotFoundException;
+import com.thedisciplineprogram.exceptions.userPlan.UserPlanUpdateException;
 import com.thedisciplineprogram.models.dtos.ChangePasswordDTO;
 import com.thedisciplineprogram.models.dtos.TrainingLevelDTO;
+import com.thedisciplineprogram.models.dtos.UserPlanDTO;
 import com.thedisciplineprogram.models.dtos.user.UserDTO;
 import com.thedisciplineprogram.models.dtos.user.UserRequestDTO;
 import com.thedisciplineprogram.models.entities.TrainingLevel;
 import com.thedisciplineprogram.models.entities.User;
+import com.thedisciplineprogram.models.entities.UserPlan;
 import com.thedisciplineprogram.repositories.TrainingLevelRepository;
+import com.thedisciplineprogram.repositories.UserPlanRepository;
 import com.thedisciplineprogram.repositories.UserRepository;
 import com.thedisciplineprogram.utils.mappers.TrainingLevelMapper;
 import com.thedisciplineprogram.utils.mappers.UserMapper;
+import com.thedisciplineprogram.utils.mappers.UserPlanMapper;
 import com.thedisciplineprogram.utils.mappers.UserRequestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +38,10 @@ public class UserServiceImpl implements UserService {
     private final UserRequestMapper userRequestMapper;
     private final UserRepository userRepository;
     private final TrainingLevelRepository trainingLevelRepository;
+    private final UserPlanRepository userPlanRepository;
     private final PasswordEncoder passwordEncoder;
     private final TrainingLevelMapper trainingLevelMapper;
+    private final UserPlanMapper userPlanMapper;
 
     @Autowired
     public UserServiceImpl(
@@ -40,14 +49,18 @@ public class UserServiceImpl implements UserService {
             UserRequestMapper userRequestMapper,
             UserRepository userRepository,
             TrainingLevelRepository trainingLevelRepository,
+            UserPlanRepository userPlanRepository,
             PasswordEncoder passwordEncoder,
-            TrainingLevelMapper trainingLevelMapper) {
+            TrainingLevelMapper trainingLevelMapper,
+            UserPlanMapper userPlanMapper) {
         this.userMapper = userMapper;
         this.userRequestMapper = userRequestMapper;
         this.userRepository = userRepository;
         this.trainingLevelRepository = trainingLevelRepository;
+        this.userPlanRepository = userPlanRepository;
         this.passwordEncoder = passwordEncoder;
         this.trainingLevelMapper = trainingLevelMapper;
+        this.userPlanMapper = userPlanMapper;
     }
 
     @Override
@@ -98,6 +111,7 @@ public class UserServiceImpl implements UserService {
         User user = userRequestMapper.toEntity(userRequestDTO);
         user.setPassword(oldUser.getPassword());
         user.setTrainingLevel(oldUser.getTrainingLevel());
+        user.setUserPlan(oldUser.getUserPlan());
 
         try {
             User saved = userRepository.save(user);
@@ -151,6 +165,26 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             throw new IncorrectTrainingLevelException("Incorrect training level name or id was provided");
+        }
+    }
+
+    @Override
+    public void changeUserPlan(Long id, UserPlanDTO userPlanDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+
+        UserPlan userPlan = userPlanRepository.findById(userPlanDTO.getId())
+                .orElseThrow(() -> new UserPlanNotFoundException("UserPlan not found with id: " + userPlanDTO.getId()));
+
+        if (userPlan.equals(userPlanMapper.toEntity(userPlanDTO))) {
+            try {
+                existingUser.setUserPlan(userPlan);
+                userRepository.save(existingUser);
+            }  catch (DataIntegrityViolationException e) {
+                throw new UserPlanUpdateException("Failed to update userPlan", e);
+            }
+        } else {
+            throw new IncorrectUserPlanException("Incorrect userPlan name or id was provided");
         }
     }
 
