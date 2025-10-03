@@ -30,6 +30,13 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             var username = tokenProvider.validateToken(token);
             var user = userRepository.findByUsername(username);
+
+            // Check if user is enabled
+            if (user == null || !user.isEnabled()) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is disabled");
+                return;
+            }
+
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

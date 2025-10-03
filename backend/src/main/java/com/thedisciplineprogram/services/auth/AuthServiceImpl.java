@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -116,6 +117,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
         var user = (User) auth.getPrincipal();
+
+        if (!user.isEnabled()) {
+            throw new DisabledException("User account is disabled");
+        }
+
         var accessToken = tokenProvider.generateAccessToken(user);
         var role = new UserRoleDTO(user.getUserRole().getId(), user.getUserRole().getName());
         var plan = new UserPlanDTO(user.getUserPlan().getId(), user.getUserPlan().getName());
