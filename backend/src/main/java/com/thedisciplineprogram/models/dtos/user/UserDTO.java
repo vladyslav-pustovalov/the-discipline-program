@@ -15,6 +15,7 @@ import java.time.LocalDate;
 
 @JsonPropertyOrder({
         "id",
+        "isEnabled",
         "username",
         "password",
         "userRole",
@@ -33,6 +34,8 @@ import java.time.LocalDate;
 public class UserDTO {
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("isEnabled")
+    private Boolean isEnabled;
     @JsonProperty("username")
     private String username;
     @JsonProperty("password")
