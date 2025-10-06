@@ -12,6 +12,7 @@ import com.thedisciplineprogram.models.dtos.auth.SignUpDTO;
 import com.thedisciplineprogram.models.entities.TrainingLevel;
 import com.thedisciplineprogram.models.entities.User;
 import com.thedisciplineprogram.models.entities.UserPlan;
+import com.thedisciplineprogram.models.entities.UserRole;
 import com.thedisciplineprogram.repositories.UserRepository;
 import com.thedisciplineprogram.services.traininglevel.TrainingLevelService;
 import com.thedisciplineprogram.services.userPlan.UserPlanService;
@@ -101,6 +102,8 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
                 log.info("New User will be created with UserPlan: {}", userPlan);
             }
         }
+
+        newUser.setUserRole(new UserRole(1L, "USER"));
 
         try {
             userRepository.save(newUser);
