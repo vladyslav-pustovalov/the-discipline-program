@@ -104,6 +104,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         }
 
         newUser.setUserRole(new UserRole(1L, "USER"));
+        newUser.setIsEnabled(false);
 
         try {
             userRepository.save(newUser);
