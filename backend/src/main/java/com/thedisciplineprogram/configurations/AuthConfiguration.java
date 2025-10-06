@@ -35,6 +35,7 @@ public class AuthConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user/changePassword").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/trainingLevel/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/userPlans").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/v2/api-docs",
                                 "/v3/api-docs",
@@ -52,6 +53,14 @@ public class AuthConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/program").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/program").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/program").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/generalProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/generalProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/generalProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/generalProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/individualProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/individualProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/individualProgram").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/individualProgram").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

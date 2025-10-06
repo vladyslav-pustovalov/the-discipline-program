@@ -8,6 +8,11 @@ CREATE TABLE IF NOT EXISTS user_roles (
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS user_plans (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS teams (
     id SERIAL PRIMARY KEY,
     name varchar (100) NOT NULL
@@ -15,10 +20,12 @@ CREATE TABLE IF NOT EXISTS teams (
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
+    is_enabled BOOL DEFAULT FALSE NOT NULL,
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     user_role_id INTEGER NOT NULL,
     training_level_id INTEGER,
+    user_plan_id INTEGER,
     first_name VARCHAR(32),
     last_name VARCHAR(32),
     phone_number VARCHAR(20),
@@ -27,6 +34,7 @@ CREATE TABLE IF NOT EXISTS users (
 
     FOREIGN KEY (user_role_id) REFERENCES user_roles(id),
     FOREIGN KEY (training_level_id) REFERENCES training_levels(id),
+    FOREIGN KEY (user_plan_id) REFERENCES user_plans(id),
     FOREIGN KEY (team_id) REFERENCES teams(id)
 );
 
@@ -64,8 +72,13 @@ CREATE TABLE individual_programs (
 
 INSERT INTO training_levels (id, name) VALUES
     (1, 'Scaled'),
-    (2, 'Pro');
+    (2, 'Pro'),
+    (3, 'Advanced');
 
 INSERT INTO user_roles (id, name) VALUES
     (1, 'USER'),
     (2, 'ADMIN');
+
+INSERT INTO user_plans (id, name) VALUES
+    (1, 'General'),
+    (2, 'Individual');

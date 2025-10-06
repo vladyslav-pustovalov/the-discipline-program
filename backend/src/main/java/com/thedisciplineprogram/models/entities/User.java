@@ -22,7 +22,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Boolean isEnabled;
     private String username;
     private String password;
     private String firstName;
@@ -38,6 +38,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "training_level_id")
     private TrainingLevel trainingLevel;
 
+    @ManyToOne
+    @JoinColumn(name = "user_plan_id", nullable = false)
+    private UserPlan userPlan;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
@@ -45,8 +49,6 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.userRole = new UserRole(1L, "USER");
-        this.trainingLevel = new TrainingLevel(1L, "Amateur");
     }
 
     @Override
@@ -74,6 +76,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

@@ -1,17 +1,18 @@
-package com.thedisciplineprogram.utils.mappers;
+package com.thedisciplineprogram.utils.mappers.program;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.thedisciplineprogram.models.dtos.program.programdetails.DailyProgramDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thedisciplineprogram.models.dtos.program.DailyProgramDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.mapstruct.Mapper;
 import org.mapstruct.Named;
-import org.springframework.stereotype.Component;
 
-@Component
-public class DailyProgramMapper {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+@Mapper(componentModel = "spring")
+public interface DailyProgramMapper {
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Named("stringToDailyProgram")
-    public DailyProgramDTO stringToDailyProgram(String json) {
+    default DailyProgramDTO stringToDailyProgram(String json) {
         if (json == null) return null;
         try {
             return objectMapper.readValue(json, DailyProgramDTO.class);
@@ -21,7 +22,7 @@ public class DailyProgramMapper {
     }
 
     @Named("dailyProgramToString")
-    public String dailyProgramToString(DailyProgramDTO dto) {
+    default String dailyProgramToString(DailyProgramDTO dto) {
         if (dto == null) return null;
         try {
             return objectMapper.writeValueAsString(dto);

@@ -1,4 +1,4 @@
-package com.thedisciplineprogram.models.dtos.program;
+package com.thedisciplineprogram.models.dtos.program.programdetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @JsonPropertyOrder({
-    "trainingNumber",
-        "blocks"
+        "name",
+        "exercises"
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DayTraining {
-    @JsonProperty("trainingNumber")
-    private Integer trainingNumber;
-    @JsonProperty("blocks")
-    private List<BlockDTO> blocks;
+public final class BlockDTO {
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("exercises")
+    private List<String> exercises;
 }
