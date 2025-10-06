@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
 
   database:
     container_name: db_container
-    image: postgres:alpine
+    image: postgres:17-alpine  
     environment:
       POSTGRES_PASSWORD: $TDP_DB_PASS
       POSTGRES_USER: $TDP_DB_USER
